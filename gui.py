@@ -10,7 +10,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
-        self.__coeff_aleatoire = 10; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 20; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
 
@@ -28,7 +28,7 @@ class gui():
         self.__corps_vaisseau = ""
 
         self.__projectile = ""
-        self.__corps_vaisseau = ""
+        self.__corps_projectile = ""
 
     
 
@@ -44,6 +44,7 @@ class gui():
         self.__canvas.pack()
 
         self.GenererAlien()     #Genere les aliens
+        self.GenererVaisseau()  #Genere le vaisseau
         
 
         #Ici la zone de score
@@ -109,7 +110,6 @@ class gui():
 
 
     def GenererVaisseau(self):
-
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
     
     def GenererProjectile(self,tir_ami,x,y):
