@@ -6,9 +6,9 @@ class vaisseau():
         self.__canvas_hei = canvas_hei  #Recupere la hauteur du canvas
 
         #Definition du carre a partir de coordonnes des points 1 (Coord x1 y1) et 2 (Coord x2 y2)
-        self.__x1 = 330
+        self.__x1 = 230
         self.__y1 = 650
-        self.__x2 = 370
+        self.__x2 = 470
         self.__y2 = 680
         
         self.__color_fill = "blue"

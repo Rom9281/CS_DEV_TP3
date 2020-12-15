@@ -11,7 +11,7 @@ class projectile():
         self.__longueur = 10  #Definit la longeur du projectile
         self.__color = "red" #Definit la couleur du projectile
 
-        self.__deplacer_vit = 5 #Vitesse de deplacment du missile
+        self.__deplacer_vit = 7 #Vitesse de deplacment du missile
 
         if self.__tir_ami:
             #Si c'est un tir ami, le projectile devra partir du bas du vaisseau et monter
@@ -46,12 +46,12 @@ class projectile():
     
     def ModifierCoord(self):
         if self.__tir_ami:
-            if 0 < (self.__x1 - self.__deplacer_vit):
+            if 0 < (self.__y1 - self.__deplacer_vit):
                 self.DeplacerHaut()
             else:
                 self.__etat = False
         else:
-            if int(self.__canvas_hei) > (self.__x2 + self.__deplacer_vit):
+            if int(self.__canvas_hei) > (self.__y2 + self.__deplacer_vit):
                 self.DeplacerBas()
             else:
                 self.__etat = False
@@ -63,3 +63,6 @@ class projectile():
     def DeplacerBas(self):
         self.__y1 += + self.__deplacer_vit
         self.__y2 += + self.__deplacer_vit
+    
+    def CalculerCentre(self):
+        return (self.__x1 + (self.__x2 - self.__x1)/2) , (self.__y1 + (self.__y2 - self.__y1)/2)
