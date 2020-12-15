@@ -13,22 +13,20 @@ class vaisseau():
         self.__color_fill = "blue"
       
 
+    def Getx1(self):
+        return self.__x1
 
+    def Getx2(self):
+        return self.__x2
 
-        def Getx1(self):
-            return self.__x1
-    
-        def Getx2(self):
-            return self.__x2
+    def Gety1(self):
+        return self.__y1
 
-        def Gety1(self):
-            return self.__y1
-    
-        def Gety2(self):
-            return self.__y2
+    def Gety2(self):
+        return self.__y2
 
-        def GetColor(self):
-            return self.__color_fill
+    def GetColor(self):
+        return self.__color_fill
         
         
     
