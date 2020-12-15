@@ -1,4 +1,5 @@
 import tkinter as tk
+from alien import alien
 
 class gui():
     def __init__(self):
@@ -6,6 +7,8 @@ class gui():
         self.__score = 0    #Definition du score
 
         self.__canvas = ""  #Defintion du canvas
+
+        self.__alien = alien()
 
     
 
@@ -20,6 +23,8 @@ class gui():
         self.__canvas = tk.Canvas(self.__main, width = "700", height = "700", bg = "black")
         self.__canvas.pack()
 
+        self.__alien.AfficherAlien(self.__canvas)
+        
 
         #Ici la zone de score
         
