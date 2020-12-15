@@ -13,6 +13,7 @@ class gui():
         self.__coeff_aleatoire = 10; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
+        self.__vies = 3
 
         self.__canvas = ""  #Defintion du canvas
         self.__canvas_len = "700"   #Definition de la longueur du canvas
@@ -54,7 +55,7 @@ class gui():
 
         #ici la zone de vie
         vie=0
-        Vie=tk.Label(self.__main , text="Vies : "+ str(vie) )
+        Vie=tk.Label(self.__main , text="Vies : "+ str(self.__vies) )
         Vie.pack(side=tk.RIGHT)
 
         #ici le bouton quitter
@@ -132,7 +133,12 @@ class gui():
         if self.__projectile != "":
             x,y = self.__projectile.CalculerCentre()
             if (self.__vaisseau.Gety1() <= self.__projectile.Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())):
-                return False
+                if self.__vies > 0:
+                    self.__vies += -1
+                    self.SupprimerProjectile()
+                    return True
+                else:
+                    return False
             else:
                 return True
         else:
