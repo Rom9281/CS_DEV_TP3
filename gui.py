@@ -4,9 +4,15 @@ from alien import alien
 class gui():
     def __init__(self):
         self.__main = ""    #Definition de la fenetre principale
+        self.__main_len = "1000"    #longueur de la fenetre
+        self.__main_hei = "1000"    #largeur de la fenetre
+
+
         self.__score = 0    #Definition du score
 
         self.__canvas = ""  #Defintion du canvas
+        self.__canvas_len = "700"   #Definition de la longueur du canvas
+        self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
         self.__alien = alien()
 
@@ -15,12 +21,13 @@ class gui():
     def AfficherFenetre(self):
         self.__main = tk.Tk()
 
-        self.__main.geometry("1000x1000")
+        self.__main.geometry(self.__main_len+"x"+self.__main_hei)
 
         
         #Ici le canvas
 
-        self.__canvas = tk.Canvas(self.__main, width = "700", height = "700", bg = "blue")
+        self.__canvas = tk.Canvas(self.__main, width = self.__canvas_len, height = self.__canvas_hei, bg = "black")
+
         self.__canvas.pack()
 
         self.__alien.AfficherAlien(self.__canvas)
@@ -40,5 +47,9 @@ class gui():
         bouton2 = tk.Button(self.__main , text='Play' )
         bouton2.pack()
 
-
+        self.deplacer()     #permet d'actualiser les positions
         self.__main.mainloop()
+    
+    def deplacer(self):
+        self.__alien.update()
+
