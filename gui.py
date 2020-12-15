@@ -15,6 +15,8 @@ class gui():
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
         self.__alien = alien(self.__canvas_len,self.__canvas_hei)
+        self.__corps_alien = ""
+        self.__corps_aliens = []    #liste a utiliser quand il y aura plusieurs aliens
 
     
 
@@ -27,10 +29,9 @@ class gui():
         #Ici le canvas
 
         self.__canvas = tk.Canvas(self.__main, width = self.__canvas_len, height = self.__canvas_hei, bg = "black")
-
         self.__canvas.pack()
 
-        self.__alien.AfficherAlien(self.__canvas)
+        self.GenererAlien()     #Genere les aliens
         
 
         #Ici la zone de score
@@ -59,5 +60,10 @@ class gui():
         self.__main.mainloop()
     
     def deplacer(self):
-        self.__alien.ModifierCoord(self.__canvas)
+        self.__alien.ModifierCoord()
+        self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2())
         self.__main.after(20, self.deplacer)
+    
+    def GenererAlien(self):
+        self.__corps_alien = self.__canvas.create_rectangle(self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2(), fill = self.__alien.GetColor())
+

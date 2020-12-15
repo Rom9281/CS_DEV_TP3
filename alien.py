@@ -11,40 +11,56 @@ class alien():
         #Definition du carre a partir de coordonnes des points 1 (Coord x1 y1) et 2 (Coord x2 y2)
         self.__x1 = 0
         self.__y1 = 100
-        self.__x2 = 200
+        self.__x2 = 100
         self.__y2 = 200
         self.__color_fill = "pink"
 
         #Deplacement de l'alien
         self.__positif = True
-        self.__vit_deplacer = 10
+        self.__vit_deplacer_hor = 10 #Vitesse de deplacement horizontal
+        self.__vit_deplacer_ver = 100 #Vitesse de deplacement vertical
 
+    def Getx1(self):
+        return self.__x1
     
-    def AfficherAlien(self,main):
-        self.__corps_alien = main.create_rectangle(self.__x1,self.__y1,self.__x2,self.__y2, fill = self.__color_fill)
-        print("ok")
+    def Getx2(self):
+        return self.__x2
+
+    def Gety1(self):
+        return self.__y1
     
-    def ModifierCoord(self,main):
+    def Gety2(self):
+        return self.__y2
+
+    def GetColor(self):
+        return self.__color_fill
+
+    def ModifierCoord(self):
         if self.__positif:
-            if int(self.__canvas_len) > (self.__x2 + self.__vit_deplacer):
+            if int(self.__canvas_len) > (self.__x2 + self.__vit_deplacer_hor):
                 self.DeplacerDroit()
             else:
                 self.__positif = False
                 self.DeplacerGauche()
         else:
-            if 0 < (self.__x1 - self.__vit_deplacer):
+            if 0 < (self.__x1 - self.__vit_deplacer_hor):
                 self.DeplacerGauche()
             else:
                 self.__positif = True
                 self.DeplacerDroit()
-        
-        main.coords(self.__corps_alien,self.__x1,self.__y1,self.__x2,self.__y2)
+                if int(self.__canvas_hei) > (self.__y2 + self.__vit_deplacer_ver):
+                    self.DeplacerBas()
+                else:
+                    print("perdu")
             
-    
     def DeplacerDroit(self):
-        self.__x1 += self.__vit_deplacer
-        self.__x2 += self.__vit_deplacer
+        self.__x1 += self.__vit_deplacer_hor
+        self.__x2 += self.__vit_deplacer_hor
     
     def DeplacerGauche(self):
-        self.__x1 += -self.__vit_deplacer
-        self.__x2 += -self.__vit_deplacer
+        self.__x1 += - self.__vit_deplacer_hor
+        self.__x2 += - self.__vit_deplacer_hor
+    
+    def DeplacerBas(self):
+        self.__y1 += self.__vit_deplacer_ver
+        self.__y2 += self.__vit_deplacer_ver
