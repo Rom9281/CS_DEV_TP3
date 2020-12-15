@@ -5,13 +5,13 @@ class projectile():
 
         self.__tir_ami = tir_ami
 
-        self.__destroy = False
+        self.__etat = True
 
         self.__largeur = 2  #Definit la largeur du projectile
         self.__longueur = 10  #Definit la longeur du projectile
         self.__color = "red" #Definit la couleur du projectile
 
-        self.__deplacer_vit = 30 #Vitesse de deplacment du missile
+        self.__deplacer_vit = 5 #Vitesse de deplacment du missile
 
         if self.__tir_ami:
             #Si c'est un tir ami, le projectile devra partir du bas du vaisseau et monter
@@ -40,6 +40,9 @@ class projectile():
 
     def GetColor(self):
         return self.__color
+    
+    def GetEtat(self):
+        return self.__etat
     
     def ModifierCoord(self):
         if self.__tir_ami:
