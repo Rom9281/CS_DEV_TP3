@@ -33,6 +33,7 @@ class gui():
         
 
         #Ici la zone de score
+        
 
         #ici le bouton quitter
 
@@ -41,6 +42,8 @@ class gui():
 
         #Ici le bouton demarer
 
+        bouton2 = tk.Button(self.__main , text='Play' , command="")
+        bouton2.pack()
 
         self.deplacer()     #permet d'actualiser les positions
         self.__main.mainloop()
