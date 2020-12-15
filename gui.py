@@ -21,7 +21,7 @@ class gui():
         self.__corps_aliens = []    #liste a utiliser quand il y aura plusieurs aliens
 
         #Creation des caracteristiques du vaisseau
-        self.__vaisseau = vaisseau()
+        self.__vaisseau = vaisseau(self.__canvas_len,self.__canvas_hei)
         self.__corps_vaisseau = ""
 
     
@@ -38,6 +38,7 @@ class gui():
         self.__canvas.pack()
 
         self.GenererAlien()     #Genere les aliens
+        self.GenererVaisseau()
         
 
         #Ici la zone de score
@@ -82,7 +83,6 @@ class gui():
         self.__corps_alien = self.__canvas.create_rectangle(self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2(), fill = self.__alien.GetColor())
 
 
-
     def GenererVaisseau(self):
-        self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.Getcolor())
+        self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
 
