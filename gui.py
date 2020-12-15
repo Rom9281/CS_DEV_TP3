@@ -1,5 +1,6 @@
 import tkinter as tk
 from alien import alien
+from vaisseau import vaisseau
 
 class gui():
     def __init__(self):
@@ -14,9 +15,14 @@ class gui():
         self.__canvas_len = "700"   #Definition de la longueur du canvas
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
+        #Creation des caracteristiques de l'alien
         self.__alien = alien(self.__canvas_len,self.__canvas_hei)
         self.__corps_alien = ""
         self.__corps_aliens = []    #liste a utiliser quand il y aura plusieurs aliens
+
+        #Creation des caracteristiques du vaisseau
+        self.__vaisseau = vaisseau()
+        self.__corps_vaisseau = ""
 
     
 
