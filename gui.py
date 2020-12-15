@@ -53,5 +53,5 @@ class gui():
         self.__main.mainloop()
     
     def deplacer(self):
-        self.__alien.ModifierCoord(self.__main)
+        self.__alien.ModifierCoord(self.__canvas)
         self.__main.after(20, self.deplacer)
