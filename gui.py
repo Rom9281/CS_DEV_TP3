@@ -1,6 +1,8 @@
 import tkinter as tk
 from alien import alien
 from vaisseau import vaisseau
+from projectile import projectile
+import random
 
 class gui():
     def __init__(self):
@@ -8,6 +10,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
+        self.__coeff_aleatoire = 10; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
 
@@ -22,6 +25,9 @@ class gui():
 
         #Creation des caracteristiques du vaisseau
         self.__vaisseau = vaisseau(self.__canvas_len,self.__canvas_hei)
+        self.__corps_vaisseau = ""
+
+        self.__projectile = ""
         self.__corps_vaisseau = ""
 
     
@@ -69,12 +75,28 @@ class gui():
         self.__main.mainloop()
     
     def deplacer(self):
+        if self.__projectile != "":
+            if not self.__projectile.GetEtat():
+                self.__canvas.delete(self.__corps_projectile)
+                self.__projectile = ""
+                self.__corps_projectile = ""
+        
         #Mettre ici la fonctionn qui permet de modifier les coordonnes
         self.__alien.ModifierCoord()
-        
+
+        #Mettre ici les fonctions qui permettent a l'alien de tirer
+        if self.__projectile == "":
+            self.__random = random.randint(0,self.__coeff_aleatoire)
+            if self.__random == 1:
+                x,y = self.__alien.CalculerCentre()
+                self.GenererProjectile(False,x,y)
+
 
         #Mettre ici la modification de l'objet du canvas
         self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2())
+        if self.__projectile != "":
+            self.__projectile.ModifierCoord()
+            self.__canvas.coords(self.__corps_projectile,self.__projectile.Getx1(),self.__projectile.Gety1(),self.__projectile.Getx2(),self.__projectile.Gety2())
         
         #Realiser les deplacements
         self.__main.after(20, self.deplacer)
@@ -87,5 +109,11 @@ class gui():
 
 
     def GenererVaisseau(self):
-        self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill= self.__vaisseau.GetColor())
+
+        self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
+    
+    def GenererProjectile(self,tir_ami,x,y):
+        self.__projectile = projectile(self.__canvas_len,self.__canvas_hei,x,y, tir_ami)
+        self.__corps_projectile = self.__canvas.create_rectangle(self.__projectile.Getx1(),self.__projectile.Gety1(),self.__projectile.Getx2(),self.__projectile.Gety2(), fill=self.__projectile.GetColor())
+
 

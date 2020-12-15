@@ -64,3 +64,6 @@ class alien():
     def DeplacerBas(self):
         self.__y1 += self.__vit_deplacer_ver
         self.__y2 += self.__vit_deplacer_ver
+
+    def CalculerCentre(self):
+        return (self.__x2 - self.__x1)/2 , (self.__y2 - self.__y1)/2
