@@ -15,7 +15,8 @@ class gui():
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
         self.__alien = alien(self.__canvas_len,self.__canvas_hei)
-        self.__corps_aliens = []
+        self.__corps_alien = ""
+        self.__corps_aliens = []    #liste a utiliser quand il y aura plusieurs aliens
 
     
 
