@@ -20,14 +20,15 @@ class gui():
         
         #Ici le canvas
 
-        self.__canvas = tk.Canvas(self.__main, width = "700", height = "700", bg = "black")
+        self.__canvas = tk.Canvas(self.__main, width = "700", height = "700", bg = "blue")
         self.__canvas.pack()
 
         self.__alien.AfficherAlien(self.__canvas)
         
 
         #Ici la zone de score
-        
+        score=0
+        self.__canvas.create_text(60,60 , text="Score : "+ str(score))
 
         #ici le bouton quitter
 
@@ -36,7 +37,7 @@ class gui():
 
         #Ici le bouton demarer
 
-        bouton2 = tk.Button(self.__main , text='Play' , command="")
+        bouton2 = tk.Button(self.__main , text='Play' )
         bouton2.pack()
 
 
