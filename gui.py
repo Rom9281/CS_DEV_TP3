@@ -35,7 +35,13 @@ class gui():
 
         #Ici la zone de score
         score=0
-        self.__canvas.create_text(60,60 , text="Score : "+ str(score))
+        Score=tk.Label(self.__main , text="Score : "+ str(score) )
+        Score.pack(side=tk.RIGHT)
+
+        #ici la zone de vie
+        vie=0
+        Vie=tk.Label(self.__main , text="Vies : "+ str(vie) )
+        Vie.pack(side=tk.RIGHT)
 
         #ici le bouton quitter
 
