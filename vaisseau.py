@@ -11,6 +11,9 @@ class vaisseau():
         self.__x2 = 370
         self.__y2 = 680
         self.__color_fill = "blue"
+
+        self.__centreX = (self.__x2 - self.__x1) / 2 
+        self.__centreY = (self.__y2 - self.__y1) / 2
       
 
     def Getx1(self):
@@ -27,6 +30,21 @@ class vaisseau():
 
     def GetColor(self):
         return self.__color_fill
+
+    def droite(self):
+        bind(sequence=None, evtGest=None, add=None)
+
+
+    
+    
+
+
+
+
+    
+
+
+    
         
         
     

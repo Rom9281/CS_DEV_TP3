@@ -38,7 +38,6 @@ class gui():
         self.__canvas.pack()
 
         self.GenererAlien()     #Genere les aliens
-        self.GenererVaisseau()
         
 
         #Ici la zone de score
@@ -63,7 +62,10 @@ class gui():
 
 
         #Permet de deplacer les objets
-        self.deplacer()     #permet d'actualiser les positions
+        
+
+        #permet d'actualiser les positions
+        self.deplacer()
         self.__main.mainloop()
     
     def deplacer(self):
@@ -83,6 +85,7 @@ class gui():
         self.__corps_alien = self.__canvas.create_rectangle(self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2(), fill = self.__alien.GetColor())
 
 
+
     def GenererVaisseau(self):
-        self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
+        self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill= self.__vaisseau.GetColor())
 
