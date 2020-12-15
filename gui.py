@@ -60,10 +60,17 @@ class gui():
         self.__main.mainloop()
     
     def deplacer(self):
+        #Mettre ici la fonctionn qui permet de modifier les coordonnes
         self.__alien.ModifierCoord()
+
+        #Mettre ici la modification de l'objet du canvas
         self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2())
+        
+        #Realiser les deplacements
         self.__main.after(20, self.deplacer)
     
+
+    #Mettre ici les fonctions afficher
     def GenererAlien(self):
         self.__corps_alien = self.__canvas.create_rectangle(self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2(), fill = self.__alien.GetColor())
 
