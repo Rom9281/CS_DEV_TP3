@@ -49,12 +49,12 @@ class projectile():
             if 0 < (self.__x1 - self.__deplacer_vit):
                 self.DeplacerHaut()
             else:
-                self.__destroy = True
+                self.__etat = False
         else:
             if int(self.__canvas_hei) > (self.__x2 + self.__deplacer_vit):
                 self.DeplacerBas()
             else:
-                self.__destroy = True
+                self.__etat = False
 
     def DeplacerHaut(self):
         self.__y1 += - self.__deplacer_vit
