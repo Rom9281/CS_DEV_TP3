@@ -10,7 +10,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
-        self.__coeff_aleatoire = 20; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 100; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
 
