@@ -14,7 +14,7 @@ class gui():
         self.__canvas_len = "700"   #Definition de la longueur du canvas
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
-        self.__alien = alien()
+        self.__alien = alien(self.__canvas_len,self.__canvas_hei)
 
     
 
@@ -47,9 +47,11 @@ class gui():
         bouton2 = tk.Button(self.__main , text='Play' )
         bouton2.pack()
 
+
+        #Permet de deplacer les objets
         self.deplacer()     #permet d'actualiser les positions
         self.__main.mainloop()
     
     def deplacer(self):
-        self.__alien.update()
+        self.__alien.ModifierCoord()
 
