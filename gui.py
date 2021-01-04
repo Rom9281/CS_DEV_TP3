@@ -46,7 +46,10 @@ class gui():
 
         self.GenererAlien()     #Genere les aliens
         self.GenererVaisseau()  #Genere le vaisseau
-        
+
+        #Lie les touches du clavier au canvas:
+        self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
+        self.__main.bind("<Right>", self.__vaisseau.MoveRight)   
 
         #Ici la zone de score
         score=0
@@ -93,7 +96,13 @@ class gui():
                     self.GenererProjectile(False,x,y)
 
             #Mettre ici la modification de l'objet du canvas
-            self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2())
+            #_______________________________________________
+
+            #Deplacement de l'alien
+            self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2()) 
+
+            #Deplacement du vaisseau
+            self.__canvas.coords(self.__corps_vaisseau,self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2())  
             if self.__projectile != "":
                 self.__projectile.ModifierCoord()
                 self.__canvas.coords(self.__corps_projectile,self.__projectile.Getx1(),self.__projectile.Gety1(),self.__projectile.Getx2(),self.__projectile.Gety2())
