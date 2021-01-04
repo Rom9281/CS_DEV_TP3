@@ -14,6 +14,7 @@ class gui():
 
         self.__score = 0    #Definition du score
         self.__vies = 3
+        self.__vies_label= ""
 
         self.__canvas = ""  #Defintion du canvas
         self.__canvas_len = "700"   #Definition de la longueur du canvas
@@ -57,9 +58,8 @@ class gui():
         Score.pack(side=tk.RIGHT)
 
         #ici la zone de vie
-        vie=0
-        Vie=tk.Label(self.__main , text="Vies : "+ str(self.__vies) )
-        Vie.pack(side=tk.RIGHT)
+        self.__vies_label=tk.Label(self.__main , text = "Vies : "+ str(self.__vies))
+        self.__vies_label.pack(side=tk.RIGHT)
 
         #ici le bouton quitter
 
@@ -80,6 +80,12 @@ class gui():
         self.__main.mainloop()
     
     def deplacer(self):
+        #Permet de deplacer les differents objects et de mettre a jour le texte
+        #______________________________________________________________________
+
+        #Mise a jour du nombre de vies
+        self.__vies_label['text'] = "Vies : " + str(self.__vies) 
+
         if self.VerifCoord():
             if self.__projectile != "":
                 if not self.__projectile.GetEtat():
