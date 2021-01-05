@@ -117,7 +117,11 @@ class gui():
                         self.SupprimerProjectile(projectile,i)
             
             #_____________________Lucas_____Mettre ici la fonctionn qui permet de modifier les coordonnes______________________________________________
-            
+            for i in self.__aliens_att:
+                i.ModifierCoord()
+            for i in self.__aliens_def:
+                i.ModifierCoord()
+
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
             if self.__projectile == "":
