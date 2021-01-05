@@ -36,6 +36,8 @@ class alien():
         self.__vit_deplacer_hor = 1 #Vitesse de deplacement horizontal
         self.__vit_deplacer_ver = 10 #Vitesse de deplacement vertical
 
+        self.__etat = True
+
     def Getx1(self):
         return self.__x1
     
@@ -50,6 +52,12 @@ class alien():
 
     def GetColor(self):
         return self.__color_fill
+
+    def GetEtat(self):
+        return self.__etat
+    
+    def Detruire(self):
+        self.__etat = False
 
     def ModifierCoord(self):
         if self.__positif:

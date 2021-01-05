@@ -59,6 +59,9 @@ class projectile():
     def GetEkip(self):
         return self.__tir_ami
     
+    def Detruire(self):
+        self.__etat = False
+    
     def ModifierCoord(self):
         if self.__tir_ami:
             if 0 < (self.__y1 - self.__deplacer_vit):

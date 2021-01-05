@@ -23,7 +23,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
-        self.__coeff_aleatoire = 1000; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 100; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
         self.__vies = 3
@@ -43,16 +43,18 @@ class gui():
         self.__corps_aliens_att=[]
         self.__corps_aliens_def=[]
 
+        self.__aliens = []
+
 
         #Creation des caracteristiques du vaisseau
         self.__vaisseau = vaisseau(self.__canvas_len,self.__canvas_hei)
         self.__corps_vaisseau = ""
 
-        self.__projectile = ""
-        self.__corps_projectile = ""
         self.__projectiles = []
         self.__corps_projectiles = []
 
+        self.__corps_projectiles_detruits = []
+        self.__projectiles_detruits = []
         #Lancement du programme
         self.AfficherFenetre()
 
@@ -63,7 +65,6 @@ class gui():
 
         self.__main.geometry(self.__main_len+"x"+self.__main_hei)       #Definit la geometrie de la fenetre   
 
-        
         #Ici le canvas
 
         self.__canvas = tk.Canvas(self.__main, width = self.__canvas_len, height = self.__canvas_hei, bg = "black")
@@ -78,7 +79,7 @@ class gui():
         self.__main.bind("<space>", self.GenererTirAmi)      
 
         #Ici la zone de score
-        score=0
+        score = 0
         Score=tk.Label(self.__main , text="Score : "+ str(score) )
         Score.pack(side=tk.RIGHT)
 
@@ -130,10 +131,11 @@ class gui():
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
             for alien_att in self.__aliens_att:
-                self.__random = random.randint(0,self.__coeff_aleatoire)
-                if self.__random == 1:
-                    x,y = alien_att.CalculerCentre()
-                    self.GenererProjectile(False,x,y)
+                if alien_att.GetEtat():
+                    self.__random = random.randint(0,self.__coeff_aleatoire)
+                    if self.__random == 1:
+                        x,y = alien_att.CalculerCentre()
+                        self.GenererProjectile(False,x,y)
 
 
             #Mettre ici la modification de l'objet du canvas
@@ -141,17 +143,20 @@ class gui():
 
             #Deplacement des aliens d'attaques
             for i,alien_att in enumerate(self.__aliens_att):
-                self.__canvas.coords(self.__corps_aliens_att[i],alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2()) 
+                if alien_att.GetEtat():
+                    self.__canvas.coords(self.__corps_aliens_att[i],alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2()) 
             
             #Deplacement des aaliens de defense
             for i,alien_def in enumerate(self.__aliens_def):
-                self.__canvas.coords(self.__corps_aliens_def[i],alien_def.Getx1(),alien_def.Gety1(),alien_def.Getx2(),alien_def.Gety2()) 
+                if alien_def.GetEtat():
+                    self.__canvas.coords(self.__corps_aliens_def[i],alien_def.Getx1(),alien_def.Gety1(),alien_def.Getx2(),alien_def.Gety2()) 
 
             #Deplacement du vaisseau
             self.__canvas.coords(self.__corps_vaisseau,self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2())  
             
             #Deplacement du projectile
             for i,projectile in enumerate(self.__projectiles):
+                if projectile.GetEtat():
                     projectile.ModifierCoord()  #Possible erreur ici due a une mauvaise mise a jour des coordonnes
                     self.__canvas.coords(self.__corps_projectiles[i],projectile.Getx1(),projectile.Gety1(),projectile.Getx2(),projectile.Gety2())
                 
@@ -184,8 +189,6 @@ class gui():
             xinf = mini + (maxi-mini)/3         #Position initiale du point x1
             xsup = mini + ((maxi-mini)*2)/3     #Position intitale du point x2
 
-            
-
             #Genere l'esprit de l'alien
             alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_att,xsup,y2_att,"pink",mini,maxi)
             alien_def = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
@@ -214,72 +217,86 @@ class gui():
     def GenererTirAmi(self,event):
 
         """Evenement ou il y a un projetile amis"""
+
         x,y = self.__vaisseau.GetCentre()
         self.GenererProjectile(True,x,y)
 
-    #Mettre ici les object a cacher temporairement
-    #_____________________________________________
-
-    def CacherProjectile(self,i):
-        self.__canvas.itemconfigure(self.__corps_projectiles[i], state = "hidden")
-
+    
     #Mettre ici les fonction detruisant les objets
     #_____________________________
 
 
     def SupprimerProjectile(self,projectile,i):
-        self.__canvas.delete(self.__corps_projectiles[i])
-        del self.__projectiles[i]
-        del self.__corps_projectiles[i]
+        #self.__canvas.delete(self.__corps_projectiles[i])
+        projectile.Detruire()
+        self.__canvas.itemconfigure(self.__corps_projectiles[i], state = "hidden")
 
     def SupprimerAlienAtt(self,alien,i):
-        self.__canvas.delete(self.__corps_aliens_att[i])
-        del self.__aliens_att[i]
-        del self.__corps_aliens_att[i]
+        #self.__canvas.delete(self.__corps_aliens_att[i])
+        alien.Detruire()
+        self.__canvas.itemconfigure(self.__corps_aliens_att[i], state = "hidden")
     
     def SupprimerAlienDef(self,alien,i):
-        self.__canvas.delete(self.__corps_aliens_def[i])
-        del self.__aliens_def[i]
-        del self.__corps_aliens_def[i]
+        #self.__canvas.delete(self.__corps_aliens_def[i])
+        alien.Detruire()
+        self.__canvas.itemconfigure(self.__corps_aliens_def[i], state = "hidden")
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
     #____________________
 
     def VerifCoord(self):
+
+        if self.VerifGagne():   #Si on detruit tout les aliens on arrete le jeu
+            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="green",font="Times 50 italic bold",text="Gagne")
+            return False
+
         if self.__projectiles != []:
             for i,projectile in enumerate(self.__projectiles):
+                
+                if projectile.GetEtat():    #Si le projectile existe
 
-                x,y = projectile.CalculerCentre()
+                    x,y = projectile.CalculerCentre()
 
-                if projectile.GetEkip():    #Si le projectile est un tir ami
+                    if projectile.GetEkip():    #Si le projectile est un tir ami
 
-                    for i,alien_att in enumerate(self.__aliens_att):
-                        if (alien_att.Gety2() >= projectile.Gety1()) and ((x >= alien_att.Getx1()) and (x <= alien_att.Getx2())):  #Si le projectile est dans la zone de l'alien
-                            self.SupprimerAlienAtt(alien_att,i)
-                            self.CacherProjectile(i)
-                    
-                    for i,alien_def in enumerate(self.__aliens_def):
-                        if (alien_def.Gety2() >= projectile.Gety1()) and ((x >= alien_def.Getx1()) and (x <= alien_def.Getx2())):  #Si le projectile est dans la zone de l'alien
-                            self.SupprimerAlienDef(alien_def,i)
-                            self.CacherProjectile(i)
-                        
-                    return True
-
-                else:   #Sinon le tir est ennemis
-
-                    if (self.__vaisseau.Gety1() <= projectile.Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
-                        if self.__vies > 0:     #Si le vaisseau a assez de vies
-                            self.__vies += -1
-                            self.SupprimerProjectile(projectile,i)
-                            return True
-                        else:   #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
-                            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
-                            return False
-                    else:
+                        for i,alien_att in enumerate(self.__aliens_att):
+                            if alien_att.GetEtat():
+                                if (alien_att.Gety2() >= projectile.Gety1()) and ((x >= alien_att.Getx1()) and (x <= alien_att.Getx2())):  #Si le projectile est dans la zone de l'alien
+                                    self.SupprimerAlienAtt(alien_att,i)
+                                    self.SupprimerProjectile(projectile,i)
+                            
+                        for i,alien_def in enumerate(self.__aliens_def):
+                            if alien_def.GetEtat():
+                                if (alien_def.Gety2() >= projectile.Gety1()) and ((x >= alien_def.Getx1()) and (x <= alien_def.Getx2())):  #Si le projectile est dans la zone de l'alien
+                                    self.SupprimerAlienDef(alien_def,i)
+                                    self.SupprimerProjectile(projectile,i)
+                                
                         return True
+
+                    else:   #Sinon le tir est ennemis
+
+                        if (self.__vaisseau.Gety1() <= projectile.Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
+                            
+                            if self.__vies > 0:     #Si le vaisseau a assez de vies
+                                self.__vies += -1
+                                self.SupprimerProjectile(projectile,i)
+                                return True
+
+                            else:   #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
+                                self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+                                return False
+                        else:
+                            return True
         else:
             return True
-
+    
+    def VerifGagne(self):
+        self.__aliens.extend(self.__aliens_att)
+        self.__aliens.extend(self.__aliens_def)
+        for alien in self.__aliens:
+            if alien.GetEtat():
+                return False
+        return True
 
     def rejouer(self):
             self.__main.destroy()
