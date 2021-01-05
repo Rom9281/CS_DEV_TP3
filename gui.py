@@ -10,7 +10,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
-        self.__coeff_aleatoire = 10; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 100; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
         self.__vies = 3
@@ -22,6 +22,7 @@ class gui():
 
         #Creation des caracteristiques de l'alien
         self.__alien = alien(self.__canvas_len,self.__canvas_hei)
+        self.__aliens = []
         self.__corps_alien = ""
         self.__corps_aliens = []    #liste a utiliser quand il y aura plusieurs aliens
 
@@ -31,6 +32,8 @@ class gui():
 
         self.__projectile = ""
         self.__corps_projectile = ""
+        self.__projectiles = []
+        self.__corps_projectiles = []
 
     
 
@@ -50,7 +53,8 @@ class gui():
 
         #Lie les touches du clavier au canvas:
         self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
-        self.__main.bind("<Right>", self.__vaisseau.MoveRight)   
+        self.__main.bind("<Right>", self.__vaisseau.MoveRight)
+        self.__main.bind("<space>", self.GenererTirAmi)      
 
         #Ici la zone de score
         score=0
@@ -86,34 +90,40 @@ class gui():
         #Mise a jour du nombre de vies
         self.__vies_label['text'] = "Vies : " + str(self.__vies) 
 
+
+        #Verifie si le projectile existe, et si il est rentre en collisionle detruit
         if self.VerifCoord():
-            if self.__projectile != "":
-                if not self.__projectile.GetEtat():
-                    self.SupprimerProjectile()
+            for i,projectile in enumerate(self.__projectiles):
+                if projectile != "":
+                    if not projectile.GetEtat():
+                        self.SupprimerProjectile(projectile,i)
             
             #Mettre ici la fonctionn qui permet de modifier les coordonnes
-            self.__alien.ModifierCoord()
+            if self.__alien != "":
+                self.__alien.ModifierCoord()
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
-            if self.__projectile == "":
-                self.__random = random.randint(0,self.__coeff_aleatoire)
-                if self.__random == 1:
-                    x,y = self.__alien.CalculerCentre()
-                    self.GenererProjectile(False,x,y)
+            self.__random = random.randint(0,self.__coeff_aleatoire)
+            if self.__random == 1:
+                x,y = self.__alien.CalculerCentre()
+                self.GenererProjectile(False,x,y)
 
             #Mettre ici la modification de l'objet du canvas
             #_______________________________________________
 
             #Deplacement de l'alien
-            self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2()) 
+            if self.__corps_alien != "":    #Si le corps de l'alien existe le deplacer
+                self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2()) 
 
             #Deplacement du vaisseau
             self.__canvas.coords(self.__corps_vaisseau,self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2())  
-            if self.__projectile != "":
-                self.__projectile.ModifierCoord()
-                self.__canvas.coords(self.__corps_projectile,self.__projectile.Getx1(),self.__projectile.Gety1(),self.__projectile.Getx2(),self.__projectile.Gety2())
-        else:
-            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+            
+            #Deplacement du projectile
+            for i,projectile in enumerate(self.__projectiles):
+                    projectile.ModifierCoord()  #Possible erreur ici due a une mauvaise mise a jour des coordonnes
+                    self.__canvas.coords(self.__corps_projectiles[i],projectile.Getx1(),projectile.Gety1(),projectile.Getx2(),projectile.Gety2())
+                
+        
         #Realiser les deplacements
         self.__main.after(20, self.deplacer)
 
@@ -128,34 +138,60 @@ class gui():
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
     
     def GenererProjectile(self,tir_ami,x,y):
-        self.__projectile = projectile(self.__canvas_len,self.__canvas_hei,x,y, tir_ami)
-        self.__corps_projectile = self.__canvas.create_rectangle(self.__projectile.Getx1(),self.__projectile.Gety1(),self.__projectile.Getx2(),self.__projectile.Gety2(), fill=self.__projectile.GetColor())
+        projectile1 = projectile(self.__canvas_len,self.__canvas_hei,x,y, tir_ami)
+        corps_projectile = self.__canvas.create_rectangle(projectile1.Getx1(),projectile1.Gety1(),projectile1.Getx2(),projectile1.Gety2(), fill=projectile1.GetColor())
+
+        #Rajoute les projectiles a la liste
+        self.__projectiles.append(projectile1)
+        self.__corps_projectiles.append(corps_projectile)
+    
+    def GenererTirAmi(self,event):
+        x,y = self.__vaisseau.GetCentre()
+        self.GenererProjectile(True,x,y)
 
 
     #Mettre ici les fonction detruisant les objets
     #_____________________________
 
 
-    def SupprimerProjectile(self):
-        self.__canvas.delete(self.__corps_projectile)
-        self.__projectile = ""
-        self.__corps_projectile = ""
+    def SupprimerProjectile(self,projectile,i):
+        self.__canvas.delete(self.__corps_projectiles[i])
+        del self.__projectiles[i]
+        del self.__corps_projectiles[i]
+
+    def SupprimerAlien(self):
+        self.__canvas.delete(self.__corps_alien)
+        self.__alien = ""
+        self.__corps_alien = ''
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
     #____________________
 
     def VerifCoord(self):
-        if self.__projectile != "":
-            x,y = self.__projectile.CalculerCentre()
-            if (self.__vaisseau.Gety1() <= self.__projectile.Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())):
-                if self.__vies > 0:
-                    self.__vies += -1
-                    self.SupprimerProjectile()
+        if self.__projectiles != []:
+            for i,projectile in enumerate(self.__projectiles):
+                x,y = projectile.CalculerCentre()
+
+                if projectile.GetEkip():    #Si le projectile est un tir ami
+
+                    if (self.__alien.Gety2() >= projectile.Gety1()) and ((x >= self.__alien.Getx1()) and (x <= self.__alien.Getx2())):  #Si le projectile est dans la zone de l'alien
+                        self.SupprimerAlien()
+                        self.SupprimerProjectile(projectile,i)
+                        
                     return True
-                else:
-                    return False
-            else:
-                return True
+
+                else:   #Sinon le tir est ennemis
+
+                    if (self.__vaisseau.Gety1() <= projectile.Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
+                        if self.__vies > 0:     #Si le vaisseau a assez de vies
+                            self.__vies += -1
+                            self.SupprimerProjectile(projectile,i)
+                            return True
+                        else:   #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
+                            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+                            return False
+                    else:
+                        return True
         else:
             return True
 

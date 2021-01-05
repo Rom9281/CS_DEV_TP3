@@ -34,6 +34,10 @@ class vaisseau():
 
     def GetColor(self):
         return self.__color_fill
+    
+    def GetCentre(self):
+        x,y = self.__x1 +(self.__x2/2), self.__y1 +(self.__y2/2)
+        return x,y
 
     def MoveRight(self,event):
         if self.__canvas_len > (self.__x2 + self.__vit_hor):
