@@ -33,8 +33,8 @@ class alien():
 
         #Deplacement de l'alien
         self.__positif = True
-        self.__vit_deplacer_hor = 5 #Vitesse de deplacement horizontal
-        self.__vit_deplacer_ver = 20 #Vitesse de deplacement vertical
+        self.__vit_deplacer_hor = 1 #Vitesse de deplacement horizontal
+        self.__vit_deplacer_ver = 10 #Vitesse de deplacement vertical
 
     def Getx1(self):
         return self.__x1
