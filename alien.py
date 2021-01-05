@@ -1,4 +1,15 @@
 
+#   CPE Lyon - 3ETI
+
+#   Auteurs : Lucas ROTH | Romain GAUD
+
+#   Date : 1/5/2021
+
+#   Matiere : CS DEV
+
+#   TP : 3
+
+#   Objectif : Creer une classe qui gere la "conscience" de l'alien: comment il se deplace, ect...
 
 import tkinter as tk
 
