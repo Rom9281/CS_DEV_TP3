@@ -213,6 +213,11 @@ class gui():
         x,y = self.__vaisseau.GetCentre()
         self.GenererProjectile(True,x,y)
 
+    #Mettre ici les object a cacher temporairement
+    #_____________________________________________
+
+    def CacherProjectile(self,i):
+        self.__canvas.itemconfigure(self.__corps_projectiles[i], state = "hidden")
 
     #Mettre ici les fonction detruisant les objets
     #_____________________________
@@ -223,10 +228,15 @@ class gui():
         del self.__projectiles[i]
         del self.__corps_projectiles[i]
 
-    def SupprimerAlien(self,alien,i):
-        self.__canvas.delete(self.__corps_aliens[i])
-        del self.__aliens[i]
-        del self.__corps_aliens[i]
+    def SupprimerAlienAtt(self,alien,i):
+        self.__canvas.delete(self.__corps_aliens_att[i])
+        del self.__aliens_att[i]
+        del self.__corps_aliens_att[i]
+    
+    def SupprimerAlienDef(self,alien,i):
+        self.__canvas.delete(self.__corps_aliens_def[i])
+        del self.__aliens_def[i]
+        del self.__corps_aliens_def[i]
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
     #____________________
@@ -241,13 +251,13 @@ class gui():
 
                     for i,alien_att in enumerate(self.__aliens_att):
                         if (alien_att.Gety2() >= projectile.Gety1()) and ((x >= alien_att.Getx1()) and (x <= alien_att.Getx2())):  #Si le projectile est dans la zone de l'alien
-                            self.SupprimerAlien(alien_att,i)
-                            self.SupprimerProjectile(projectile,i)
+                            self.SupprimerAlienAtt(alien_att,i)
+                            self.CacherProjectile(i)
                     
                     for i,alien_def in enumerate(self.__aliens_def):
                         if (alien_def.Gety2() >= projectile.Gety1()) and ((x >= alien_def.Getx1()) and (x <= alien_def.Getx2())):  #Si le projectile est dans la zone de l'alien
-                            self.SupprimerAlien(alien_def,i)
-                            self.SupprimerProjectile(projectile,i)
+                            self.SupprimerAlienDef(alien_def,i)
+                            self.CacherProjectile(i)
                         
                     return True
 
