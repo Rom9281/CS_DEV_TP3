@@ -32,7 +32,7 @@ class gui():
         self.__canvas_len = "700"   #Definition de la longueur du canvas
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
-        self.__nombre_aliens = 7    #Nombre d'aliens par colonnes
+        self.__nombre_aliens = 10  #Nombre d'aliens par colonnes
 
         #Creation des listes d'aliens
         
@@ -54,6 +54,7 @@ class gui():
 
         self.__corps_projectiles_detruits = []
         self.__projectiles_detruits = []
+
         #Lancement du programme
         self.AfficherFenetre()
 
@@ -218,7 +219,7 @@ class gui():
         """Evenement ou il y a un projetile amis"""
 
         x,y = self.__vaisseau.GetCentre()
-        
+
         self.GenererProjectile(True,x,y)
 
     
@@ -247,7 +248,7 @@ class gui():
     def VerifCoord(self):
 
         if self.VerifGagne():   #Si on detruit tout les aliens on arrete le jeu
-            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="green",font="Times 50 italic bold",text="Gagne")
+            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="gold",font="Times 50 italic bold",text="Winner")
             return False
 
         if self.__projectiles != []:

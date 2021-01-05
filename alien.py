@@ -74,8 +74,6 @@ class alien():
                 self.DeplacerDroit()
                 if int(self.__canvas_hei) > (self.__y2 + self.__vit_deplacer_ver):
                     self.DeplacerBas()
-                else:
-                    print("perdu")
             
     def DeplacerDroit(self):
         self.__x1 += self.__vit_deplacer_hor

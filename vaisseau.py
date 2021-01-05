@@ -48,7 +48,7 @@ class vaisseau():
         return self.__color_fill
     
     def GetCentre(self):
-        x,y = self.__x1 +(self.__x2/2), self.__y1 +(self.__y2/2)
+        x,y = self.__x1 +((self.__x2 - self.__x1)/2), self.__y1 +((self.__y2- self.__y1)/2)
         return x,y
 
     def MoveRight(self,event):
