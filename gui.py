@@ -167,12 +167,17 @@ class gui():
             #Etablit les limites des cadres dans lequelles les aliens peuvent circuler
 
             mini = (self.__canvas_len/self.__nombre_aliens)*i
-            mini = (self.__canvas_len/self.__nombre_aliens)*(i+1)
-            alien_att = alien(self.__canvas_len,self.__canvas_hei,0,y1_att,100,200,"pink",5,20)
-            alien_deff = alien(self.__canvas_len,self.__canvas_hei,100,y1_def,200,y1_att,"green",0,20)
+            maxi = (self.__canvas_len/self.__nombre_aliens)*(i+1)
 
-            corps_alienDeff = self.__canvas.create_rectangle(self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2(), fill = self.__alienDeff.GetColor())
-            corps_alienAtt = self.__canvas.create_rectangle(self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
+            xinf = mini + (maxi-mini)/3 #Position initiale du point x1
+            xsup = mini + ((maxi-mini)*2)/3
+
+
+            alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,200,"pink",mini,maxi)
+            alien_deff = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
+
+            corps_alienDeff = self.__canvas.create_rectangle(alien_deff.Getx1(),alien_deff.Gety1(),alien_deff.Getx2(),alien_deff.Gety2(), fill = alien_deff.GetColor())
+            corps_alienAtt = self.__canvas.create_rectangle(alien_att.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
 
     def GenererVaisseau(self):
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
