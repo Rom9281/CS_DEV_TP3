@@ -34,9 +34,8 @@ class gui():
 
         self.__nombre_aliens = 5    #Nombre d'aliens par colonnes
 
-        #Creation des caracteristiques de l'alien
+        #Creation des listes d'aliens
         
-
         self.__aliens_att=[]
         self.__aliens_def=[]
 
@@ -56,9 +55,11 @@ class gui():
     
 
     def AfficherFenetre(self):
-        self.__main = tk.Tk()
+        """Commande d'affichage de la fentetre"""
 
-        self.__main.geometry(self.__main_len+"x"+self.__main_hei)
+        self.__main = tk.Tk()                                           #Creer la fenetre TKinter
+
+        self.__main.geometry(self.__main_len+"x"+self.__main_hei)       #Definit la geometrie de la fenetre   
 
         
         #Ici le canvas
@@ -66,8 +67,8 @@ class gui():
         self.__canvas = tk.Canvas(self.__main, width = self.__canvas_len, height = self.__canvas_hei, bg = "black")
         self.__canvas.pack()
 
-        self.GenererAliens()     #Genere les aliens
-        self.GenererVaisseau()  #Genere le vaisseau
+        self.GenererAliens()                 #Genere les aliens
+        self.GenererVaisseau()               #Genere le vaisseau
 
         #Lie les touches du clavier au canvas:
         self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
@@ -102,7 +103,7 @@ class gui():
         self.__main.mainloop()
     
     def deplacer(self):
-        #Permet de deplacer les differents objects et de mettre a jour le texte
+        """Permet de deplacer les differents objects et de mettre a jour le texte"""
         #______________________________________________________________________
 
         #Mise a jour du nombre de vies
@@ -117,7 +118,8 @@ class gui():
                         self.SupprimerProjectile(projectile,i)
             
             #_____________________Lucas_____Mettre ici la fonctionn qui permet de modifier les coordonnes______________________________________________
-            
+            self.__alienAtt.ModifierCoord()
+            self.__alienDeff.ModifierCoord()
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
             if self.__projectile == "":
@@ -149,7 +151,7 @@ class gui():
     #Mettre ici les fonctions afficher
     #______________________
 
-    def GenererAlien(self):
+    def GenererAliens(self):
 
         '''Genere les aliens de defense et d'attaque'''
         #______________________________________________
@@ -164,21 +166,23 @@ class gui():
         for i in range(self.__nombre_aliens):
 
             #Etablit les limites des cadres dans lequelles les aliens peuvent circuler
-
             mini = (self.__canvas_len/self.__nombre_aliens)*i
             maxi = (self.__canvas_len/self.__nombre_aliens)*(i+1)
 
-            xinf = mini + (maxi-mini)/3 #Position initiale du point x1
-            xsup = mini + ((maxi-mini)*2)/3
+            xinf = mini + (maxi-mini)/3         #Position initiale du point x1
+            xsup = mini + ((maxi-mini)*2)/3     #Position intitale du point x2
 
-
+            #Genere l'esprit de l'alien
             alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,200,"pink",mini,maxi)
             alien_def = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
 
+            #Genere le corps de l'alien
             corps_alien_def = self.__canvas.create_rectangle(alien_def.Getx1(),alien_def.Gety1(),alien_def.Getx2(),alien_def.Gety2(), fill = alien_def.GetColor())
             corps_alien_att = self.__canvas.create_rectangle(alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2(), fill = alien_att.GetColor())
             
-            self.__aliens_def
+            #Ajoute les differents aliens a la liste des aliens
+            self.__aliens_def.append(alien_def)
+            self.__aliens_att.append(alien_att)
             self.__corps_aliens_def.append(corps_alien_def)
             self.__corps_aliens_att.append(corps_alien_att)
 
@@ -194,6 +198,8 @@ class gui():
         self.__corps_projectiles.append(corps_projectile)
     
     def GenererTirAmi(self,event):
+
+        """Evenement ou il y a un projetile amis"""
         x,y = self.__vaisseau.GetCentre()
         self.GenererProjectile(True,x,y)
 
@@ -207,10 +213,10 @@ class gui():
         del self.__projectiles[i]
         del self.__corps_projectiles[i]
 
-    def SupprimerAlien(self,):
+    def SupprimerAlien(self,alien,i):
         self.__canvas.delete(self.__corps_alien)
-        self.__alien = ''
-        self.__corps_alien = ''
+        del self.__aliens[i]
+        del self.__corps_aliens[i]
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
     #____________________
