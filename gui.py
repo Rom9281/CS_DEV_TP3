@@ -88,7 +88,7 @@ class gui():
 
         #ici le bouton quitter
 
-        bouton1 = tk.Button(self.__main , text='Quitter',command=self.__main.quit)
+        bouton1 = tk.Button(self.__main , text='Quitter',command=self.__main.destroy)
         bouton1.pack()
 
         #Ici le bouton demarer
