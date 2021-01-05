@@ -125,15 +125,10 @@ class gui():
 
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
-            self.__random = random.randint(0,self.__coeff_aleatoire)
             for alien_att in self.__aliens_att:
+                self.__random = random.randint(0,self.__coeff_aleatoire)
                 if self.__random == 1:
                     x,y = alien_att.CalculerCentre()
-                    self.GenererProjectile(False,x,y)
-            
-            for alien_def in self.__aliens_def:
-                if self.__random == 1:
-                    x,y = alien_def.CalculerCentre()
                     self.GenererProjectile(False,x,y)
 
 
