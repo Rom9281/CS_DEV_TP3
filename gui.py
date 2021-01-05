@@ -53,12 +53,13 @@ class gui():
         self.__projectiles = []
         self.__corps_projectiles = []
 
+        #Lancement du programme
+        self.AfficherFenetre()
+
     
 
     def AfficherFenetre(self):
         """Commande d'affichage de la fentetre"""
-
-                                                  #Creer la fenetre TKinter
 
         self.__main.geometry(self.__main_len+"x"+self.__main_hei)       #Definit la geometrie de la fenetre   
 
@@ -92,7 +93,7 @@ class gui():
 
         #Ici le bouton demarer
 
-        bouton2 = tk.Button(self.__main , text='Play' , command=self.rejouer)
+        bouton2 = tk.Button(self.__main , text='Rejouer' , command=self.rejouer)
         bouton2.pack()
 
         
@@ -283,5 +284,5 @@ class gui():
     def rejouer(self):
             self.__main.destroy()
             self.__init__()
-            self.__main.AfficherFenetre()
+            
   
