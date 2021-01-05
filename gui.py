@@ -1,5 +1,5 @@
 import tkinter as tk
-from alien import alien
+from essai import alien
 from vaisseau import vaisseau
 from projectile import projectile
 import random
@@ -21,7 +21,8 @@ class gui():
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
         #Creation des caracteristiques de l'alien
-        self.__alien = alien(self.__canvas_len,self.__canvas_hei)
+        self.__alienAtt = alien(self.__canvas_len,self.__canvas_hei,0,100,100,200,"pink",5,20)
+        self.__alienDeff = alien(self.__canvas_len,self.__canvas_hei,100,200,200,300,"green",0,20)
         self.__corps_alien = ""
         self.__corps_aliens = []    #liste a utiliser quand il y aura plusieurs aliens
 
@@ -92,20 +93,21 @@ class gui():
                     self.SupprimerProjectile()
             
             #Mettre ici la fonctionn qui permet de modifier les coordonnes
-            self.__alien.ModifierCoord()
-
+            self.__alienAtt.ModifierCoord()
+            self.__alienDeff.ModifierCoord()
             #Mettre ici les fonctions qui permettent a l'alien de tirer
             if self.__projectile == "":
                 self.__random = random.randint(0,self.__coeff_aleatoire)
                 if self.__random == 1:
-                    x,y = self.__alien.CalculerCentre()
+                    x,y = self.__alienAtt.CalculerCentre()
                     self.GenererProjectile(False,x,y)
 
             #Mettre ici la modification de l'objet du canvas
             #_______________________________________________
 
             #Deplacement de l'alien
-            self.__canvas.coords(self.__corps_alien,self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2()) 
+            self.__canvas.coords(self.__corps_alienAtt,self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2()) 
+            self.__canvas.coords(self.__corps_alienDeff,self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2()) 
 
             #Deplacement du vaisseau
             self.__canvas.coords(self.__corps_vaisseau,self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2())  
@@ -122,7 +124,8 @@ class gui():
     #______________________
 
     def GenererAlien(self):
-        self.__corps_alien = self.__canvas.create_rectangle(self.__alien.Getx1(),self.__alien.Gety1(),self.__alien.Getx2(),self.__alien.Gety2(), fill = self.__alien.GetColor())
+        self.__corps_alienDeff = self.__canvas.create_rectangle(self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2(), fill = self.__alienDeff.GetColor())
+        self.__corps_alienAtt = self.__canvas.create_rectangle(self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
 
     def GenererVaisseau(self):
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
