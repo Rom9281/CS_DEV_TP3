@@ -11,7 +11,7 @@
 #   Objectif : Creer une classe qui permet d'afficher le jeu grace a TKinter et aussi gerer les evenements tels que les collisions...
 
 import tkinter as tk
-from essai import alien
+from alien import alien
 from vaisseau import vaisseau
 from projectile import projectile
 import random
