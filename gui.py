@@ -1,8 +1,14 @@
 #   CPE Lyon - 3ETI
+
 #   Auteurs : Lucas ROTH | Romain GAUD
+
 #   Date : 1/5/2021
+
 #   Matiere : CS DEV
+
 #   TP : 3
+
+#   Objectif : Creer une classe qui permet d'afficher le jeu grace a TKinter et aussi gerer les evenements tels que les collisions...
 
 import tkinter as tk
 from essai import alien
@@ -113,6 +119,7 @@ class gui():
             #Mettre ici la fonctionn qui permet de modifier les coordonnes
             self.__alienAtt.ModifierCoord()
             self.__alienDeff.ModifierCoord()
+
             #Mettre ici les fonctions qui permettent a l'alien de tirer
             if self.__projectile == "":
                 self.__random = random.randint(0,self.__coeff_aleatoire)
@@ -161,8 +168,8 @@ class gui():
 
             mini = (self.__canvas_len/self.__nombre_aliens)*i
             mini = (self.__canvas_len/self.__nombre_aliens)*(i+1)
-            alien_att = alien(self.__canvas_len,self.__canvas_hei,0,100,100,200,"pink",5,20)
-            alien_deff = alien(self.__canvas_len,self.__canvas_hei,100,200,200,300,"green",0,20)
+            alien_att = alien(self.__canvas_len,self.__canvas_hei,0,y1_att,100,200,"pink",5,20)
+            alien_deff = alien(self.__canvas_len,self.__canvas_hei,100,y1_def,200,y1_att,"green",0,20)
 
             corps_alienDeff = self.__canvas.create_rectangle(self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2(), fill = self.__alienDeff.GetColor())
             corps_alienAtt = self.__canvas.create_rectangle(self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
