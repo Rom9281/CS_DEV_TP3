@@ -19,6 +19,7 @@ import random
 class gui():
     def __init__(self):
         self.__main = ""    #Definition de la fenetre principale
+        self.__main = tk.Tk() 
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
@@ -57,7 +58,7 @@ class gui():
     def AfficherFenetre(self):
         """Commande d'affichage de la fentetre"""
 
-        self.__main = tk.Tk()                                           #Creer la fenetre TKinter
+                                                  #Creer la fenetre TKinter
 
         self.__main.geometry(self.__main_len+"x"+self.__main_hei)       #Definit la geometrie de la fenetre   
 
@@ -91,8 +92,10 @@ class gui():
 
         #Ici le bouton demarer
 
-        bouton2 = tk.Button(self.__main , text='Play' )
+        bouton2 = tk.Button(self.__main , text='Play' , command=self.rejouer)
         bouton2.pack()
+
+        
 
 
         #Permet de deplacer les objets
@@ -259,3 +262,9 @@ class gui():
         else:
             return True
 
+
+    def rejouer(self):
+            self.__main.destroy()
+            self.__init__()
+            self.__main.AfficherFenetre()
+  
