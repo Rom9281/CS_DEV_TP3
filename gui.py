@@ -130,12 +130,17 @@ class gui():
                 x,y = self.__alienAtt.CalculerCentre()
                 self.GenererProjectile(False,x,y)
 
+
             #Mettre ici la modification de l'objet du canvas
             #_______________________________________________
 
-            #Deplacement de l'alien
-            self.__canvas.coords(self.__corps_alienAtt,self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2()) 
-            self.__canvas.coords(self.__corps_alienDeff,self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2()) 
+            #Deplacement des aliens d'attaques
+            for i,alien_att in enumerate(self.__aliens_att):
+                self.__canvas.coords(self.__corps_aliens_att[i],alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2()) 
+            
+            #Deplacement des aaliens de defense
+            for i,alien_def in enumerate(self.__aliens_def):
+                self.__canvas.coords(self.__corps_aliens_def[i],alien_def.Getx1(),alien_def.Gety1(),alien_def.Getx2(),alien_def.Gety2()) 
 
             #Deplacement du vaisseau
             self.__canvas.coords(self.__corps_vaisseau,self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2())  
@@ -160,22 +165,24 @@ class gui():
 
         #Etablit les positions de l'axe y ou ils commencent:
         y1_att = 100
-        y2_att = 200
+        y2_att = 150
 
         y1_def = 300
-        y2_def = 400
+        y2_def = 350
 
         for i in range(self.__nombre_aliens):
 
             #Etablit les limites des cadres dans lequelles les aliens peuvent circuler
-            mini = (self.__canvas_len/self.__nombre_aliens)*i
-            maxi = (self.__canvas_len/self.__nombre_aliens)*(i+1)
+            mini = (int(self.__canvas_len)/self.__nombre_aliens)*i
+            maxi = (int(self.__canvas_len)/self.__nombre_aliens)*(i+1)
 
             xinf = mini + (maxi-mini)/3         #Position initiale du point x1
             xsup = mini + ((maxi-mini)*2)/3     #Position intitale du point x2
 
+            
+
             #Genere l'esprit de l'alien
-            alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,200,"pink",mini,maxi)
+            alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_att,xsup,y2_att,"pink",mini,maxi)
             alien_def = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
 
             #Genere le corps de l'alien
