@@ -20,8 +20,8 @@ class vaisseau():
         #Definition du carre a partir de coordonnes des points 1 (Coord x1 y1) et 2 (Coord x2 y2)
         self.__x1 = 230
         self.__y1 = 650
-        self.__x2 = 470
-        self.__y2 = 680
+        self.__x2 = 500
+        self.__y2 = 600
 
         self.__len = self.__x2 - self.__x1
         self.__hei = self.__y2 - self.__y1
