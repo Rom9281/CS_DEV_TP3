@@ -20,9 +20,10 @@ class gui():
         self.__canvas_len = "700"   #Definition de la longueur du canvas
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
+        self.__nombre_aliens = 5    #Nombre d'aliens par colonnes
+
         #Creation des caracteristiques de l'alien
-        self.__alienAtt = alien(self.__canvas_len,self.__canvas_hei,0,100,100,200,"pink",5,20)
-        self.__alienDeff = alien(self.__canvas_len,self.__canvas_hei,100,200,200,300,"green",0,20)
+        
 
         self.__aliens_att=[]
         self.__aliens_deff=[]
@@ -137,10 +138,28 @@ class gui():
     #______________________
 
     def GenererAlien(self):
+
+        '''Genere les aliens de defense et d'attaque'''
+        #______________________________________________
+
+        #Etablit les positions de l'axe y ou ils commencent:
+        y1_att = 100
+        y2_att = 200
+
+        y1_def = 300
+        y2_def = 400
+
         for i in range(self.__nombre_aliens):
 
-        self.__corps_alienDeff = self.__canvas.create_rectangle(self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2(), fill = self.__alienDeff.GetColor())
-        self.__corps_alienAtt = self.__canvas.create_rectangle(self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
+            #Etablit les limites des cadres dans lequelles les aliens peuvent circuler
+
+            mini = (self.__canvas_len/self.__nombre_aliens)*i
+            mini = (self.__canvas_len/self.__nombre_aliens)*(i+1)
+            alien_att = alien(self.__canvas_len,self.__canvas_hei,0,100,100,200,"pink",5,20)
+            alien_deff = alien(self.__canvas_len,self.__canvas_hei,100,200,200,300,"green",0,20)
+
+            corps_alienDeff = self.__canvas.create_rectangle(self.__alienDeff.Getx1(),self.__alienDeff.Gety1(),self.__alienDeff.Getx2(),self.__alienDeff.Gety2(), fill = self.__alienDeff.GetColor())
+            corps_alienAtt = self.__canvas.create_rectangle(self.__alienAtt.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
 
     def GenererVaisseau(self):
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
@@ -167,9 +186,9 @@ class gui():
         del self.__projectiles[i]
         del self.__corps_projectiles[i]
 
-    def SupprimerAlien(self):
+    def SupprimerAlien(self,):
         self.__canvas.delete(self.__corps_alien)
-        self.__alien = ""
+        self.__alien = ''
         self.__corps_alien = ''
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
