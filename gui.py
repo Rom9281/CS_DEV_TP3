@@ -38,10 +38,10 @@ class gui():
         
 
         self.__aliens_att=[]
-        self.__aliens_deff=[]
+        self.__aliens_def=[]
 
         self.__corps_aliens_att=[]
-        self.__corps_aliens_deff=[]
+        self.__corps_aliens_def=[]
 
 
         #Creation des caracteristiques du vaisseau
@@ -116,9 +116,8 @@ class gui():
                     if not projectile.GetEtat():
                         self.SupprimerProjectile(projectile,i)
             
-            #Mettre ici la fonctionn qui permet de modifier les coordonnes
-            self.__alienAtt.ModifierCoord()
-            self.__alienDeff.ModifierCoord()
+            #_____________________Lucas_____Mettre ici la fonctionn qui permet de modifier les coordonnes______________________________________________
+            
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
             if self.__projectile == "":
@@ -174,10 +173,14 @@ class gui():
 
 
             alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,200,"pink",mini,maxi)
-            alien_deff = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
+            alien_def = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
 
-            corps_alienDeff = self.__canvas.create_rectangle(alien_deff.Getx1(),alien_deff.Gety1(),alien_deff.Getx2(),alien_deff.Gety2(), fill = alien_deff.GetColor())
-            corps_alienAtt = self.__canvas.create_rectangle(alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2(), fill = alien_att.GetColor())
+            corps_alien_def = self.__canvas.create_rectangle(alien_def.Getx1(),alien_def.Gety1(),alien_def.Getx2(),alien_def.Gety2(), fill = alien_def.GetColor())
+            corps_alien_att = self.__canvas.create_rectangle(alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2(), fill = alien_att.GetColor())
+            
+            self.__aliens_def
+            self.__corps_aliens_def.append(corps_alien_def)
+            self.__corps_aliens_att.append(corps_alien_att)
 
     def GenererVaisseau(self):
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
