@@ -1,3 +1,9 @@
+#   CPE Lyon - 3ETI
+#   Auteurs : Lucas ROTH | Romain GAUD
+#   Date : 1/5/2021
+#   Matiere : CS DEV
+#   TP : 3
+
 import tkinter as tk
 from essai import alien
 from vaisseau import vaisseau
