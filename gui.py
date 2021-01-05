@@ -117,16 +117,18 @@ class gui():
                     if not projectile.GetEtat():
                         self.SupprimerProjectile(projectile,i)
             
-            #_____________________Lucas_____Mettre ici la fonctionn qui permet de modifier les coordonnes______________________________________________
-            self.__alienAtt.ModifierCoord()
-            self.__alienDeff.ModifierCoord()
+            #Mettre ici la fonctionn qui permet de modifier les coordonnes
+            for i in self.__aliens_att:
+                i.ModifierCoord()
+            for i in self.__aliens_def:
+                i.ModifierCoord()
+
 
             #Mettre ici les fonctions qui permettent a l'alien de tirer
-            if self.__projectile == "":
-                self.__random = random.randint(0,self.__coeff_aleatoire)
-                if self.__random == 1:
-                    x,y = self.__alienAtt.CalculerCentre()
-                    self.GenererProjectile(False,x,y)
+            self.__random = random.randint(0,self.__coeff_aleatoire)
+            if self.__random == 1:
+                x,y = self.__alienAtt.CalculerCentre()
+                self.GenererProjectile(False,x,y)
 
             #Mettre ici la modification de l'objet du canvas
             #_______________________________________________
