@@ -1,7 +1,9 @@
 import tkinter as tk
 
 class alien():
-    def __init__(self, canvas_len,canvas_hei,posX1,posY1,posX2,posY2,color,Vx,Vy):
+    def __init__(self,min,max,canvas_len,canvas_hei,posX1,posY1,posX2,posY2,color):
+        self.__min= min
+        self.__max= max
         self.__canvas_len = canvas_len  #Recupere la longueur du canvas
         self.__canvas_hei = canvas_hei  #Recupere la hauteur du canvas
 
@@ -17,8 +19,8 @@ class alien():
 
         #Deplacement de l'alien
         self.__positif = True
-        self.__vit_deplacer_hor = Vx #Vitesse de deplacement horizontal
-        self.__vit_deplacer_ver = Vy #Vitesse de deplacement vertical
+        self.__vit_deplacer_hor = 5 #Vitesse de deplacement horizontal
+        self.__vit_deplacer_ver = 20 #Vitesse de deplacement vertical
 
     def Getx1(self):
         return self.__x1
@@ -35,15 +37,15 @@ class alien():
     def GetColor(self):
         return self.__color_fill
 
-    def ModifierCoord(self,self.__min,self.__max):
+    def ModifierCoord(self) :
         if self.__positif:
-            if int(self.__canvas_len) > (self.__x2 + self.__vit_deplacer_hor):
+            if int(self.__max) > (self.__x2 + self.__vit_deplacer_hor):
                 self.DeplacerDroit()
             else:
                 self.__positif = False
                 self.DeplacerGauche()
         else:
-            if 0 < (self.__x1 - self.__vit_deplacer_hor):
+            if self.__min < (self.__x1 - self.__vit_deplacer_hor):
                 self.DeplacerGauche()
             else:
                 self.__positif = True
