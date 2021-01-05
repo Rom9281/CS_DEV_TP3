@@ -177,7 +177,7 @@ class gui():
             alien_deff = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
 
             corps_alienDeff = self.__canvas.create_rectangle(alien_deff.Getx1(),alien_deff.Gety1(),alien_deff.Getx2(),alien_deff.Gety2(), fill = alien_deff.GetColor())
-            corps_alienAtt = self.__canvas.create_rectangle(alien_att.Getx1(),self.__alienAtt.Gety1(),self.__alienAtt.Getx2(),self.__alienAtt.Gety2(), fill = self.__alienAtt.GetColor())
+            corps_alienAtt = self.__canvas.create_rectangle(alien_att.Getx1(),alien_att.Gety1(),alien_att.Getx2(),alien_att.Gety2(), fill = alien_att.GetColor())
 
     def GenererVaisseau(self):
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
