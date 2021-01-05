@@ -19,7 +19,6 @@ import random
 class gui():
     def __init__(self):
         self.__main = ""    #Definition de la fenetre principale
-        self.__main = tk.Tk() 
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
@@ -33,7 +32,7 @@ class gui():
         self.__canvas_len = "700"   #Definition de la longueur du canvas
         self.__canvas_hei = "700"   #Definition de la hauteur du canvas
 
-        self.__nombre_aliens = 5    #Nombre d'aliens par colonnes
+        self.__nombre_aliens = 7    #Nombre d'aliens par colonnes
 
         #Creation des listes d'aliens
         
@@ -59,9 +58,9 @@ class gui():
         self.AfficherFenetre()
 
     
-
     def AfficherFenetre(self):
         """Commande d'affichage de la fentetre"""
+        self.__main = tk.Tk()
 
         self.__main.geometry(self.__main_len+"x"+self.__main_hei)       #Definit la geometrie de la fenetre   
 
@@ -219,6 +218,7 @@ class gui():
         """Evenement ou il y a un projetile amis"""
 
         x,y = self.__vaisseau.GetCentre()
+        
         self.GenererProjectile(True,x,y)
 
     
@@ -301,5 +301,6 @@ class gui():
     def rejouer(self):
             self.__main.destroy()
             self.__init__()
+            self.AfficherFenetre()
             
   
