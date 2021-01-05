@@ -23,7 +23,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
-        self.__coeff_aleatoire = 100; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 1000; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
         self.__vies = 3
@@ -216,6 +216,11 @@ class gui():
         x,y = self.__vaisseau.GetCentre()
         self.GenererProjectile(True,x,y)
 
+    #Mettre ici les object a cacher temporairement
+    #_____________________________________________
+
+    def CacherProjectile(self,i):
+        self.__canvas.itemconfigure(self.__corps_projectiles[i], state = "hidden")
 
     #Mettre ici les fonction detruisant les objets
     #_____________________________
@@ -226,10 +231,15 @@ class gui():
         del self.__projectiles[i]
         del self.__corps_projectiles[i]
 
-    def SupprimerAlien(self,alien,i):
-        self.__canvas.delete(self.__corps_alien)
-        del self.__aliens[i]
-        del self.__corps_aliens[i]
+    def SupprimerAlienAtt(self,alien,i):
+        self.__canvas.delete(self.__corps_aliens_att[i])
+        del self.__aliens_att[i]
+        del self.__corps_aliens_att[i]
+    
+    def SupprimerAlienDef(self,alien,i):
+        self.__canvas.delete(self.__corps_aliens_def[i])
+        del self.__aliens_def[i]
+        del self.__corps_aliens_def[i]
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
     #____________________
@@ -237,13 +247,20 @@ class gui():
     def VerifCoord(self):
         if self.__projectiles != []:
             for i,projectile in enumerate(self.__projectiles):
+
                 x,y = projectile.CalculerCentre()
 
                 if projectile.GetEkip():    #Si le projectile est un tir ami
 
-                    if (self.__alien.Gety2() >= projectile.Gety1()) and ((x >= self.__alien.Getx1()) and (x <= self.__alien.Getx2())):  #Si le projectile est dans la zone de l'alien
-                        self.SupprimerAlien()
-                        self.SupprimerProjectile(projectile,i)
+                    for i,alien_att in enumerate(self.__aliens_att):
+                        if (alien_att.Gety2() >= projectile.Gety1()) and ((x >= alien_att.Getx1()) and (x <= alien_att.Getx2())):  #Si le projectile est dans la zone de l'alien
+                            self.SupprimerAlienAtt(alien_att,i)
+                            self.CacherProjectile(i)
+                    
+                    for i,alien_def in enumerate(self.__aliens_def):
+                        if (alien_def.Gety2() >= projectile.Gety1()) and ((x >= alien_def.Getx1()) and (x <= alien_def.Getx2())):  #Si le projectile est dans la zone de l'alien
+                            self.SupprimerAlienDef(alien_def,i)
+                            self.CacherProjectile(i)
                         
                     return True
 
