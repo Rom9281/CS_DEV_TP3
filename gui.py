@@ -302,14 +302,14 @@ class gui():
                     if self.__projectiles[id].GetEkip():              #Si le projectile est un tir ami
 
                         for id_al in self.__aliens_att.keys():
-                            if (self.__aliens_att[id_al].Gety2() >= self.__projectiles[id].Gety1()) and ((x >= self.__aliens_att[id_al].Getx1()) and (x <= self.__aliens_att[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
+                            if (self.__aliens_att[id_al].Gety2() >= self.__projectiles[id].Gety1()) and  (self.__aliens_att[id_al].Gety1() <= self.__projectiles[id].Gety1()) and ((x >= self.__aliens_att[id_al].Getx1()) and (x <= self.__aliens_att[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
                                 if id_al not in self.__al_att_suppr:
                                     self.__al_att_suppr.append(id_al)     
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id) 
                         
                         for id_al in self.__aliens_def.keys():
-                            if (self.__aliens_def[id_al].Gety2() >= self.__projectiles[id].Gety1()) and ((x >= self.__aliens_def[id_al].Getx1()) and (x <= self.__aliens_def[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
+                            if (self.__aliens_def[id_al].Gety2() >= self.__projectiles[id].Gety1()) and (self.__aliens_def[id_al].Gety1() <= self.__projectiles[id].Gety1()) and ((x >= self.__aliens_def[id_al].Getx1()) and (x <= self.__aliens_def[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
                                 if id_al not in self.__al_def_suppr:
                                     self.__al_def_suppr.append(id_al)
                                 if id not in self.__proj_suppr:
