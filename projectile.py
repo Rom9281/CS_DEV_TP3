@@ -23,7 +23,7 @@ class projectile():
         self.__longueur = 10  #Definit la longeur du projectile
         self.__color = "red" #Definit la couleur du projectile
 
-        self.__deplacer_vit = 10 #Vitesse de deplacment du missile
+        self.__deplacer_vit = 8 #Vitesse de deplacment du missile
 
         if self.__tir_ami:
             #Si c'est un tir ami, le projectile devra partir du bas du vaisseau et monter

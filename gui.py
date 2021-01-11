@@ -25,7 +25,7 @@ class gui():
         #REGLAGES JEU
         self.__coeff_aleatoire = 200;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
         self.__mode_dur = True;                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
-        self.__coeff_joueur = 3;                        #Probabilite que le tir se declanche    
+        self.__coeff_joueur = 2;                        #Probabilite que le tir se declanche    
         self.__score = 0                                #Definition du score
         self.__vies = 3                                 #Definition du nombre de vies
         self.__vies_label= ""                           #Definition du label ou est inscrit la vie
@@ -33,10 +33,10 @@ class gui():
 
         #CANVAS
         self.__canvas = ""                              #Defintion de la variable du canvas
-        self.__canvas_len = "700"                       #Definition de la longueur du canvas
-        self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
+        self.__canvas_len = "1300"                       #Definition de la longueur du canvas
+        self.__canvas_hei = "750"                       #Definition de la hauteur du canvas
 
-        self.__nombre_aliens = 5                        #Nombre d'aliens par lignes
+        self.__nombre_aliens = 8                        #Nombre d'aliens par lignes
         self.__nb_al_dep = 2*self.__nombre_aliens
 
         #Creation des dictionaires des esprits des aliens
