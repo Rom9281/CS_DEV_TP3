@@ -18,39 +18,46 @@ import random
 
 class gui():
     def __init__(self):
-        self.__main = ""    #Definition de la fenetre principale
-        self.__main_len = "1000"    #longueur de la fenetre
-        self.__main_hei = "1000"    #largeur de la fenetre
+        self.__main = ""                                #Definition de la fenetre principale
+        self.__main_len = "1000"                        #longueur de la fenetre
+        self.__main_hei = "1000"                        #largeur de la fenetre
 
-        self.__coeff_aleatoire = 200; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        #REGLAGES JEU
+        self.__coeff_aleatoire = 200;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__mode_dur = True;                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
+        self.__coeff_joueur = 3;                        #Probabilite que le tir se declanche    
+        self.__score = 0                                #Definition du score
+        self.__vies = 3                                 #Definition du nombre de vies
+        self.__vies_label= ""                           #Definition du label ou est inscrit la vie
+        self.__score_label = ""
 
-        self.__score = 0    #Definition du score
-        self.__vies = 3
-        self.__vies_label= ""
+        #CANVAS
+        self.__canvas = ""                              #Defintion de la variable du canvas
+        self.__canvas_len = "700"                       #Definition de la longueur du canvas
+        self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
 
-        self.__canvas = ""  #Defintion du canvas
-        self.__canvas_len = "700"   #Definition de la longueur du canvas
-        self.__canvas_hei = "700"   #Definition de la hauteur du canvas
+        self.__nombre_aliens = 5                        #Nombre d'aliens par lignes
+        self.__nb_al_dep = 2*self.__nombre_aliens
 
-        self.__nombre_aliens = 5  #Nombre d'aliens par lignes
-
-        #Creation des listes d'aliens
+        #Creation des dictionaires des esprits des aliens
         
-        self.__aliens_att={}
-        self.__aliens_def={}
-
+        self.__aliens_att={}                            #Dictionnaire contennat tout les aliens d'attaque(peuvent tirer)
+        self.__aliens_def={}                            #Dictionnaire contennat tout les aliens de defense (ne peuvent pas tirer)
+        
+        #Creation des dictionaires contenant les corps des aliens (corps au sens d'objets canvas)
         self.__corps_aliens_att={}
         self.__corps_aliens_def={}
 
-        self.__proj_suppr = []        #Les id des projectiles a supprimer
-        self.__al_att_suppr = []      #Les id des aliens d'attques a supprimer
-        self.__al_def_suppr = []      #Les id des aliens de def a supprimer
+        self.__proj_suppr = []                          #Les id des projectiles a supprimer
+        self.__al_att_suppr = []                        #Les id des aliens d'attques a supprimer
+        self.__al_def_suppr = []                        #Les id des aliens de def a supprimer
 
 
         #Creation des caracteristiques du vaisseau
         self.__vaisseau = vaisseau(self.__canvas_len,self.__canvas_hei)
         self.__corps_vaisseau = ""
 
+        #Dictionaires des projectiles et de leur corps (obj canvas)
         self.__projectiles = {}
         self.__corps_projectiles = {}
 
@@ -78,9 +85,8 @@ class gui():
         self.__main.bind("<space>", self.GenererTirAmi)      
 
         #Ici la zone de score
-        score = 0
-        Score=tk.Label(self.__main , text="Score : "+ str(score) )
-        Score.pack(side=tk.RIGHT)
+        self.__score_label=tk.Label(self.__main , text="Score : "+ str(self.__score) )
+        self.__score_label.pack(side=tk.RIGHT)
 
         #ici la zone de vie
         self.__vies_label=tk.Label(self.__main , text = "Vies : "+ str(self.__vies))
@@ -107,8 +113,11 @@ class gui():
         """Permet de deplacer les differents objects et de mettre a jour le texte"""
         #______________________________________________________________________
 
-        #Mise a jour du nombre de vies
-        self.__vies_label['text'] = "Vies : " + str(self.__vies) 
+        #Mise a jour du nombre de vies et du score
+        nb_aliens = len(self.__aliens_att) + len(self.__aliens_def)
+        self.__score = abs(nb_aliens - self.__nb_al_dep)*100
+        self.__vies_label['text'] = "Vies : " + str(self.__vies)
+        self.__score_label['text'] = "Score : " + str(self.__score)
 
         if self.VerifCoord():                                                   #Si les coordonnes sont correctes, alors permet a l'esprit de dicter au corps comment bouger
 
@@ -220,10 +229,14 @@ class gui():
     def GenererTirAmi(self,event):
 
         """Evenement ou il y a un projetile amis"""
-
-        x,y = self.__vaisseau.GetCentre()
-
-        self.GenererProjectile(True,x,y)
+        if self.__mode_dur:
+            self.__random = random.randint(0,self.__coeff_joueur)        #Genere un nombre aleatoire permettant de savoir si l'alien va tirer
+            if self.__random == 1:
+                x,y = self.__vaisseau.GetCentre()
+                self.GenererProjectile(True,x,y)
+        else:
+            x,y = self.__vaisseau.GetCentre()
+            self.GenererProjectile(True,x,y)
 
     
 
