@@ -22,7 +22,7 @@ class gui():
         self.__main_len = "1000"    #longueur de la fenetre
         self.__main_hei = "1000"    #largeur de la fenetre
 
-        self.__coeff_aleatoire = 100; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 200; #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
 
         self.__score = 0    #Definition du score
         self.__vies = 3
@@ -302,14 +302,14 @@ class gui():
                     if self.__projectiles[id].GetEkip():              #Si le projectile est un tir ami
 
                         for id_al in self.__aliens_att.keys():
-                            if (self.__aliens_att[id_al].Gety2() >= self.__projectiles[id].Gety1()) and  (self.__aliens_att[id_al].Gety1() <= self.__projectiles[id].Gety1()) and ((x >= self.__aliens_att[id_al].Getx1()) and (x <= self.__aliens_att[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
+                            if (self.__aliens_att[id_al].Gety2() >= y) and  (self.__aliens_att[id_al].Gety1() <= y) and ((x >= self.__aliens_att[id_al].Getx1()) and (x <= self.__aliens_att[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
                                 if id_al not in self.__al_att_suppr:
                                     self.__al_att_suppr.append(id_al)     
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id) 
                         
                         for id_al in self.__aliens_def.keys():
-                            if (self.__aliens_def[id_al].Gety2() >= self.__projectiles[id].Gety1()) and (self.__aliens_def[id_al].Gety1() <= self.__projectiles[id].Gety1()) and ((x >= self.__aliens_def[id_al].Getx1()) and (x <= self.__aliens_def[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
+                            if (self.__aliens_def[id_al].Gety2() >= y) and (self.__aliens_def[id_al].Gety1() <= y) and ((x >= self.__aliens_def[id_al].Getx1()) and (x <= self.__aliens_def[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
                                 if id_al not in self.__al_def_suppr:
                                     self.__al_def_suppr.append(id_al)
                                 if id not in self.__proj_suppr:
@@ -335,6 +335,7 @@ class gui():
                 else:
                     if id not in self.__proj_suppr:
                         self.__proj_suppr.append(id)            #Si le projectile sort de la fenetre
+                    return True
         else:
             return True
     
