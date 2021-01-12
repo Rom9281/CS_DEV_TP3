@@ -54,6 +54,7 @@ class gui():
         self.__proj_suppr = []                          #Les id des projectiles a supprimer
         self.__al_att_suppr = []                        #Les id des aliens d'attques a supprimer
         self.__al_def_suppr = []                        #Les id des aliens de def a supprimer
+        self.__id_bl_suppr = []
 
         #Creation des dictionaires contenant les corps des aliens (corps au sens d'objets canvas)
         self.__nb_blocks = 12
@@ -310,6 +311,11 @@ class gui():
         self.__canvas.delete(self.__corps_aliens_def[identite])
         self.__corps_aliens_def.pop(identite)
         self.__aliens_def.pop(identite)
+
+    def SupprimerBlock(self,identite):
+        self.__canvas.delete(self.__corps_blocks[identite])
+        self.__corps_blocks.pop(identite)
+        self.__blocks.pop(identite)
     
     def SupprimerMorts(self):
         """Permet de supprimer les elements apres la verification de chacun d'entre eux"""
@@ -329,6 +335,11 @@ class gui():
             for id_proj in self.__proj_suppr:
                 self.SupprimerProjectile(id_proj)
             self.__proj_suppr = []
+        
+        if self.__id_bl_suppr != []:
+            for id_bl in self.__id_bl_suppr:
+                self.SupprimerBlock(id_bl)
+            self.__id_bl_suppr = []
 
     #Fonction de verification des coordonnes: Permet de savoir si c'est perdu
     #________________________________________________________________________
@@ -366,7 +377,13 @@ class gui():
                         return True                                 #Le Jeu continu
 
                     else:                                         #Sinon le tir est ennemis
-                        if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
+                        for id_bl in self.__blocks.keys():
+                            if (self.__blocks[id_bl].Gety1() <= self.__projectiles[id].Gety2()) and (self.__projectiles[id].Gety1() >= self.__blocks[id_bl].Gety1()) and((x >= self.__blocks[id_bl].Getx1()) and (x <= self.__blocks[id_bl].Getx2())): #Si est dans la zone du vaisseau
+                                if id_bl not in self.__id_bl_suppr:
+                                    self.__id_bl_suppr.append(id_bl)
+                                if id not in self.__proj_suppr:
+                                    self.__proj_suppr.append(id) 
+                        
                         #Verifie si le vaisseau est touche par un projectile
                         if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
                             
