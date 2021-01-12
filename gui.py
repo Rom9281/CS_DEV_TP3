@@ -19,13 +19,15 @@ import random
 class gui():
     def __init__(self):
         self.__main = ""                                #Definition de la fenetre principale
-        self.__main_len = "1000"                        #longueur de la fenetre
+        self.__main_len = "1400"                        #longueur de la fenetre
         self.__main_hei = "1000"                        #largeur de la fenetre
 
         #REGLAGES JEU
         self.__coeff_aleatoire = 200;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
         self.__mode_dur = False;                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
         self.__coeff_joueur = 2;                        #Probabilite que le tir se declanche    
+
+        self.__limite_aliens = 30                       #Limite pour laquelle le jeu est perdu si l'alien la franchit: se calcule par Lim = Hauteur_Cadre - ce_coeff
         self.__score = 0                                #Definition du score
         self.__vies = 3                                 #Definition du nombre de vies
         self.__vies_label= ""                           #Definition du label ou est inscrit la vie
@@ -159,7 +161,7 @@ class gui():
                     self.__canvas.coords(self.__corps_projectiles[id],self.__projectiles[id].Getx1(),self.__projectiles[id].Gety1(),self.__projectiles[id].Getx2(),self.__projectiles[id].Gety2())
         
             #Realiser les deplacements
-            self.__main.after(20, self.deplacer)
+            self.__main.after(10, self.deplacer)
 
 
     #Mettre ici les fonctions afficher
@@ -305,8 +307,10 @@ class gui():
         if self.VerifGagne():   #Si on detruit tout les aliens on arrete le jeu
             self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="gold",font="Times 50 italic bold",text="Winner")
             return False
-
-        if self.__projectiles != {}:
+        elif self.VerifPositionAlien():
+            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+            return False
+        elif self.__projectiles != {}:
             for id in self.__projectiles.keys():                     #Appelle les identites de tous les projectiles
                 if self.__projectiles[id].GetEtat():                  #Si le projectile n'est pas sorti de la fenetre
 
@@ -352,15 +356,31 @@ class gui():
         else:
             return True
     
+    def VerifPositionAlien(self):
+        """Permet de savoir si l'alien a depasse la position autorisee"""
+
+        for id_al in self.__aliens_att.keys():
+            if self.__aliens_att[id_al].Gety2() >= (int(self.__canvas_hei) - self.__limite_aliens):
+                return True                                                           #Si un alien depasse la limite return True
+        for id_al in self.__aliens_def.keys():
+            if self.__aliens_def[id_al].Gety2() >= (int(self.__canvas_hei) - self.__limite_aliens):
+                return True 
+        return False
+
+    
     def VerifGagne(self):
+        """Permet de savoir si le joueur a gagne"""
+
         if self.__aliens_att == {} and self.__aliens_def == {}:
             return True
         else:
             return False
 
     def rejouer(self):
-            self.__main.destroy()
-            self.__init__()
-            self.AfficherFenetre()
+        """Permet de relancer une partie"""
+
+        self.__main.destroy()
+        self.__init__()
+        self.AfficherFenetre()
             
   
