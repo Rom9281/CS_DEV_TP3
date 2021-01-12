@@ -37,7 +37,7 @@ class gui():
         #CANVAS
         self.__canvas = ""                              #Defintion de la variable du canvas
         self.__canvas_len = "1300"                       #Definition de la longueur du canvas
-        self.__canvas_hei = "750"                       #Definition de la hauteur du canvas
+        self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
 
         self.__nombre_aliens = 8                        #Nombre d'aliens par lignes
         self.__nb_al_dep = 2*self.__nombre_aliens
