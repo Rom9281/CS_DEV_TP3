@@ -368,7 +368,7 @@ class gui():
                     else:                                         #Sinon le tir est ennemis
                         if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
                         #Verifie si le vaisseau est touche par un projectile
-                        if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
+                        
                             
                             if self.__vies > 0:                     #Si le vaisseau a assez de vies le jeu continue
                                 self.__vies += -1
