@@ -19,9 +19,9 @@ class vaisseau():
 
         #Definition du carre a partir de coordonnes des points 1 (Coord x1 y1) et 2 (Coord x2 y2)
         self.__x1 = 400
-        self.__y1 = 650
+        self.__y1 = self.__canvas_hei - 51
         self.__x2 = 500
-        self.__y2 = 600
+        self.__y2 = self.__canvas_hei - 1
 
         self.__len = self.__x2 - self.__x1
         self.__hei = self.__y2 - self.__y1
@@ -29,7 +29,7 @@ class vaisseau():
         self.__color_fill = "blue"
 
         #Vitesse de delacement du vaisseau
-        self.__vit_hor = 20 #Vitesse de deplacement horitontal
+        self.__vit_hor = 30 #Vitesse de deplacement horitontal
       
 
     def Getx1(self):
@@ -48,7 +48,7 @@ class vaisseau():
         return self.__color_fill
     
     def GetCentre(self):
-        x,y = self.__x1 +(self.__x2/2), self.__y1 +(self.__y2/2)
+        x,y = self.__x1 +((self.__x2 - self.__x1)/2), self.__y1 +((self.__y2- self.__y1)/2)
         return x,y
 
     def MoveRight(self,event):
