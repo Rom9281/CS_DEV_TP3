@@ -14,6 +14,7 @@ import tkinter as tk
 from alien import alien
 from vaisseau import vaisseau
 from projectile import projectile
+from block import block
 import random
 
 class gui():
@@ -54,6 +55,17 @@ class gui():
         self.__al_att_suppr = []                        #Les id des aliens d'attques a supprimer
         self.__al_def_suppr = []                        #Les id des aliens de def a supprimer
 
+        #Creation des dictionaires contenant les corps des aliens (corps au sens d'objets canvas)
+        self.__nb_blocks = 12
+        self.__blocks = {}
+        self.__corps_blocks={}
+
+        #Hauteur des blocks
+        self.__block_hei = 50
+
+        #Definit la position y des blocks
+        self.__y1_bl = int(self.__canvas_hei) - 100 - self.__block_hei
+        self.__y2_bl = int(self.__canvas_hei) - 100
 
         #Creation des caracteristiques du vaisseau
         self.__vaisseau = vaisseau(self.__canvas_len,self.__canvas_hei)
@@ -80,6 +92,7 @@ class gui():
 
         self.GenererAliens()                 #Genere les aliens
         self.GenererVaisseau()               #Genere le vaisseau
+        self.GenererBlocks()
 
         #Lie les touches du clavier au canvas:
         self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
@@ -137,7 +150,7 @@ class gui():
                 self.__random = random.randint(0,self.__coeff_aleatoire)        #Genere un nombre aleatoire permettant de savoir si l'alien va tirer
                 if self.__random == 1:
                     x,y = self.__aliens_att[id].CalculerCentre()
-                    self.GenererProjectile(False,x,y)
+                    self.GenererProjectile(False,x,y,'red')
 
 
             #Mettre ici la modification de l'objet du canvas
@@ -166,6 +179,24 @@ class gui():
 
     #Mettre ici les fonctions afficher
     #______________________
+    def GenererBlocks(self):
+    
+        '''Genere les blocks de defense'''
+        #_________________________________
+
+        for i in range(self.__nb_blocks):
+            posX1 = (int(self.__canvas_len)/self.__nb_blocks)*i
+            posX2 = (int(self.__canvas_len)/self.__nb_blocks)*(i+1)
+
+            block1 = block(posX1,self.__y1_bl,posX2,self.__y2_bl,'yellow')
+            corps_block = self.__canvas.create_rectangle(block1.Getx1(),block1.Gety1(),block1.Getx2(),block1.Gety2(), fill = block1.GetColor())
+            
+            #Genere l'identite du block
+            id_blc = self.GenererId(self.__blocks)
+
+            #Ajoute le blocks aux dictionaires
+            self.__blocks[id_blc] = block1
+            self.__corps_blocks[id_blc] = corps_block
 
     def GenererAliens(self):
 
@@ -214,12 +245,12 @@ class gui():
         self.__corps_vaisseau = self.__canvas.create_rectangle(self.__vaisseau.Getx1(),self.__vaisseau.Gety1(),self.__vaisseau.Getx2(),self.__vaisseau.Gety2(), fill=self.__vaisseau.GetColor())
     
 
-    def GenererProjectile(self,tir_ami,x,y):
+    def GenererProjectile(self,tir_ami,x,y,color):
         """Genere les differentes composantes d'un projectile"""
         #_______________________________________________________
 
         #Genere un projectile sur le canvas
-        projectile1 = projectile(self.__canvas_len,self.__canvas_hei,x,y, tir_ami)
+        projectile1 = projectile(self.__canvas_len,self.__canvas_hei,x,y, tir_ami,color)
         corps_projectile = self.__canvas.create_rectangle(projectile1.Getx1(),projectile1.Gety1(),projectile1.Getx2(),projectile1.Gety2(), fill=projectile1.GetColor())
         
         id_proj = self.GenererId(self.__projectiles)                                            #Genere l'id du projectile
@@ -235,10 +266,10 @@ class gui():
             self.__random = random.randint(0,self.__coeff_joueur)        #Genere un nombre aleatoire permettant de savoir si l'alien va tirer
             if self.__random == 1:
                 x,y = self.__vaisseau.GetCentre()
-                self.GenererProjectile(True,x,y)
+                self.GenererProjectile(True,x,y,'green')
         else:
             x,y = self.__vaisseau.GetCentre()
-            self.GenererProjectile(True,x,y)
+            self.GenererProjectile(True,x,y,'green')
 
     
 
@@ -334,8 +365,9 @@ class gui():
                                 
                         return True                                 #Le Jeu continu
 
-                    else:                                           #Sinon le tir est ennemis
-
+                    else:                                         #Sinon le tir est ennemis
+                        if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
+                        #Verifie si le vaisseau est touche par un projectile
                         if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
                             
                             if self.__vies > 0:                     #Si le vaisseau a assez de vies le jeu continue
@@ -346,7 +378,7 @@ class gui():
 
                             else:                                   #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
                                 self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
-                                return False
+                                return False                        #Arrete le jeu
                         else:
                             return True
                 else:

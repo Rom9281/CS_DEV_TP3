@@ -11,19 +11,19 @@
 #   Objectif : Creer la classe qui gere les coordonnes du projectile
 
 class projectile():
-    def __init__(self,canvas_len, canvas_hei, objet_x, objet_y, tir_ami):
-        self.__canvas_len = canvas_len  #Recupere la longueur du canvas
-        self.__canvas_hei = canvas_hei  #Recupere la hauteur du canvas
+    def __init__(self,canvas_len, canvas_hei, objet_x, objet_y, tir_ami,color):
+        self.__canvas_len = canvas_len                          #Recupere la longueur du canvas
+        self.__canvas_hei = canvas_hei                          #Recupere la hauteur du canvas
 
-        self.__tir_ami = tir_ami
+        self.__tir_ami = tir_ami                                #True = Tir ami
 
         self.__etat = True
 
-        self.__largeur = 2  #Definit la largeur du projectile
-        self.__longueur = 7  #Definit la longeur du projectile
-        self.__color = "red" #Definit la couleur du projectile
+        self.__largeur = 3                                      #Definit la largeur du projectile
+        self.__longueur = 9                                     #Definit la longeur du projectile
+        self.__color = color                                   #Definit la couleur du projectile
 
-        self.__deplacer_vit = 4 #Vitesse de deplacment du missile
+        self.__deplacer_vit = 4                                 #Vitesse de deplacment du missile
 
         if self.__tir_ami:
             #Si c'est un tir ami, le projectile devra partir du bas du vaisseau et monter
@@ -63,6 +63,8 @@ class projectile():
         self.__etat = False
     
     def ModifierCoord(self):
+        """Permet de modifier les coordonnes du prjectile"""
+
         if self.__tir_ami:
             if 0 < (self.__y1 - self.__deplacer_vit):
                 self.DeplacerHaut()
