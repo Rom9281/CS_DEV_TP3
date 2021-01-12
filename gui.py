@@ -57,9 +57,11 @@ class gui():
         self.__id_bl_suppr = []
 
         #Creation des dictionaires contenant les corps des aliens (corps au sens d'objets canvas)
-        self.__nb_blocks = 12
+        self.__nb_blocks = 30
         self.__blocks = {}
         self.__corps_blocks={}
+
+        self.__coeff_block_inv = 3                      #Chance que le bloc soit invinsible
 
         #Hauteur des blocks
         self.__block_hei = 50
@@ -189,8 +191,16 @@ class gui():
             posX1 = (int(self.__canvas_len)/self.__nb_blocks)*i
             posX2 = (int(self.__canvas_len)/self.__nb_blocks)*(i+1)
 
-            block1 = block(posX1,self.__y1_bl,posX2,self.__y2_bl,'yellow')
-            corps_block = self.__canvas.create_rectangle(block1.Getx1(),block1.Gety1(),block1.Getx2(),block1.Gety2(), fill = block1.GetColor())
+            self.__random = random.randint(0,self.__coeff_block_inv)        #Genere un nombre aleatoire permettant de savoir si l'alien va tirer
+            if self.__random == 1:
+                invincible = True
+                color = 'brown'
+            else:
+                invincible = False
+                color = 'yellow'
+
+            block1 = block(posX1,self.__y1_bl,posX2,self.__y2_bl,invincible,color)
+            corps_block = self.__canvas.create_rectangle(block1.Getx1(),block1.Gety1(),block1.Getx2(),block1.Gety2(),fill = block1.GetColor())
             
             #Genere l'identite du block
             id_blc = self.GenererId(self.__blocks)
@@ -378,9 +388,11 @@ class gui():
 
                     else:                                         #Sinon le tir est ennemis
                         for id_bl in self.__blocks.keys():
+                            
                             if (self.__blocks[id_bl].Gety1() <= self.__projectiles[id].Gety2()) and (self.__projectiles[id].Gety1() >= self.__blocks[id_bl].Gety1()) and((x >= self.__blocks[id_bl].Getx1()) and (x <= self.__blocks[id_bl].Getx2())): #Si est dans la zone du vaisseau
-                                if id_bl not in self.__id_bl_suppr:
-                                    self.__id_bl_suppr.append(id_bl)
+                                if not self.__blocks[id_bl].IsInvincible():
+                                    if id_bl not in self.__id_bl_suppr:
+                                        self.__id_bl_suppr.append(id_bl)
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id) 
                         
