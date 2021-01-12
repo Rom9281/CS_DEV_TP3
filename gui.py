@@ -23,7 +23,7 @@ class gui():
         self.__main_hei = "1000"                        #largeur de la fenetre
 
         #REGLAGES JEU
-        self.__coeff_aleatoire = 200;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__coeff_aleatoire = 400;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
         self.__mode_dur = True;                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
         self.__coeff_joueur = 2;                        #Probabilite que le tir se declanche    
 
@@ -161,7 +161,7 @@ class gui():
                     self.__canvas.coords(self.__corps_projectiles[id],self.__projectiles[id].Getx1(),self.__projectiles[id].Gety1(),self.__projectiles[id].Getx2(),self.__projectiles[id].Gety2())
         
             #Realiser les deplacements
-            self.__main.after(20, self.deplacer)
+            self.__main.after(10, self.deplacer)
 
 
     #Mettre ici les fonctions afficher
