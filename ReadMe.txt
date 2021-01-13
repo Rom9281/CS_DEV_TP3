@@ -20,3 +20,13 @@
             - L'esprit dicte au corps de bouger : c'est donc lui qui effectue les calculs de coordonnes.
             - Chaque entite (sauf le vaisseau qui est unique en son genre) est stoque dans un dictionaire et possede une identite numerique qui permet de le repertorier
             - Ce sont les entites qui sont percutes qui gerent les collsions et qui permetent de dire au GUI si il faut qu'elles soient enleves
+    
+%%NIVEAU
+ - Suite a quelques problemes, il n'y a pas eu d'ajouts de NIVEAU
+ - LA difficulte augmente au moment ou il reste que trois aliens d'attaques:
+        - Les aliens tirent plus vite
+        - Le joueur ne tire pas tout le temps
+%%CHEATCODES
+    - appuyer sur r permet de gagner ou perdre un nombre de vies choisit aleatoirement. Ne marche que si les on a plus de une vie.
+    - Le mode difficile de la fin peut etre enleve en appuyant sur d, mais il enleve une vie
+    - Code ultime : Hell mode en appuyant sur h... deconseille

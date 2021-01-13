@@ -56,6 +56,8 @@ class vaisseau():
             self.__x2 = self.__x2 + self.__vit_hor
             self.__x1 = self.__x1 + self.__vit_hor
         else:
+            self.__x2 = self.__canvas_len - 1
+            self.__x1 = (self.__canvas_len - 1) - self.__len
             pass
 
     def MoveLeft(self,event):
@@ -63,6 +65,8 @@ class vaisseau():
             self.__x1 = self.__x1 - self.__vit_hor
             self.__x2 = self.__x2 - self.__vit_hor
         else:
+            self.__x1 = 0
+            self.__x2 = self.__len
             pass
     
     def IsColliding(self,Points):

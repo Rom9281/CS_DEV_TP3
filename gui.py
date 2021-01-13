@@ -24,11 +24,14 @@ class gui():
         self.__main_hei = "900"                        #largeur de la fenetre
 
         #REGLAGES JEU
-        self.__coeff_aleatoire = 150;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
-        self.__mode_dur = False;                        #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
-        self.__coeff_joueur = 2;                        #Probabilite que le tir se declanche    
+        self.__coeff_aleatoire = 150                    #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        
+        self.__aug_diff = False                         #Permet de declncher le mode dur qu'une fois  
+        self.__mode_dur = False                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
+        self.__coeff_joueur = 2                         #Probabilite que le tir se declanche 
+        self.__hell_mode = False                        #Mode de l'enfer desactiver... mieux vaut ne pas y toucher.   
 
-        self.__limite_aliens = 30                       #Limite pour laquelle le jeu est perdu si l'alien la franchit: se calcule par Lim = Hauteur_Cadre - ce_coeff
+        
         self.__score = 0                                #Definition du score
         self.__vies = 3                                 #Definition du nombre de vies
         self.__vies_label= ""                           #Definition du label ou est inscrit la vie
@@ -37,7 +40,7 @@ class gui():
         #CANVAS
         self.__canvas = ""                              #Defintion de la variable du canvas
         self.__canvas_len = "1280"                      #Definition de la longueur du canvas
-        self.__canvas_hei = "800"                       #Definition de la hauteur du canvas
+        self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
         
         
 
@@ -71,7 +74,9 @@ class gui():
         #Definit la position y des blocks
         self.__y1_bl = int(self.__canvas_hei) - 100 - self.__block_hei
         self.__y2_bl = int(self.__canvas_hei) - 100
-
+        
+        self.__limite_aliens = self.__y1_bl             #Limite pour laquelle le jeu est perdu si l'alien la franchit: se calcule par Lim = Hauteur_Cadre - ce_coeff
+        
         #Creation des caracteristiques du vaisseau
         self.__vaisseau = vaisseau(self.__canvas_len,self.__canvas_hei)
         self.__corps_vaisseau = ""
@@ -97,14 +102,23 @@ class gui():
         self.__background = tk.PhotoImage(file="galaxie.png")
         self.__canvas.create_image(0, 0, image=self.__background, anchor='nw')
 
-        self.GenererAliens()                 #Genere les aliens
-        self.GenererVaisseau()               #Genere le vaisseau
+        self.GenererAliens()                                                  #Genere les aliens
+        self.GenererVaisseau()                                                #Genere le vaisseau
         self.GenererBlocks()
 
         #Lie les touches du clavier au canvas:
+
+        #Permet de bouger en apuyant sur les fleches
         self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
         self.__main.bind("<Right>", self.__vaisseau.MoveRight)
-        self.__main.bind("<KeyRelease-space>", self.GenererTirAmi)      
+
+        #Cheatcodes
+        self.__main.bind("r", self.RandomLife)
+        self.__main.bind("d", self.DureOff)
+        self.__main.bind("h", self.HellMode)
+
+        #Permet de tirer en apuyant sur ESPACE
+        self.__main.bind("<KeyRelease-space>", self.GenererTirAmi)                  
 
         #Ici la zone de score
         self.__score_label=tk.Label(self.__main , text="Score : "+ str(self.__score) )
@@ -359,13 +373,20 @@ class gui():
     #________________________________________________________________________
 
     def VerifCoord(self):
+        if len(self.__aliens_att) <= 3:                           #Augmente la difficulte si il reste que 3 aliens
+            if not self.__aug_diff:
+                self.__mode_dur = True  
+                self.__coeff_aleatoire = 50
+                self.__aug_diff = True                            #N'augmente la difficulte qu'une fois                 
 
-        if self.VerifGagne():   #Si on detruit tout les aliens on arrete le jeu
-            self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="gold",font="Times 50 italic bold",text="Winner")
+        if self.VerifGagne():                                       #Si on detruit tout les aliens on arrete le jeu
+            self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="gold",font="Times 100 italic bold",text="Winner")
             return False
-        elif self.VerifPositionAlien():
-            self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+
+        elif self.VerifPositionAlien():                                 
+            self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="red",font="Times 100 italic bold",text="PERDU")
             return False
+
         elif self.__projectiles != {}:
             for id in self.__projectiles.keys():                                                #Appelle les identites de tous les projectiles
                 if self.__projectiles[id].GetEtat():                                            #Si le projectile n'est pas sorti de la fenetre
@@ -400,14 +421,14 @@ class gui():
                         
                         #Verifie si le vaisseau est touche par un projectile
                         if self.__vaisseau.IsColliding(self.__projectiles[id].GetPoints()):     #Si est dans la zone du vaisseau
-                            if self.__vies > 0:                                                 #Si le vaisseau a assez de vies le jeu continue
+                            if self.__vies > 1:                                                 #Si le vaisseau a assez de vies le jeu continue
                                 self.__vies += -1
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id)
 
                             else:                                                                #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
                                 #Ecriture du message perdu
-                                self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+                                self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="red",font="Times 100 italic bold",text="PERDU")
                                 
                                 return False                                                     #Arrete le jeu
                 else:
@@ -417,14 +438,38 @@ class gui():
         else:
             return True
     
+    # Autres fonctions :
+    #___________________
+
+    def RandomLife(self,event):
+        if self.__vies > 1:
+            if self.__vies <= 3:
+                self.__vies += random.randint( - self.__vies + 1, self.__vies)
+            else:
+                self.__vies += random.randint( - self.__vies, self.__vies - 1)
+    
+    def DureOff(self,event):
+        if self.__mode_dur:
+            if self.__vies > 1:
+                self.__mode_dur = False
+                self.__vies += -1
+    
+    def HellMode(self,event):
+        if not self.__hell_mode:
+            self.__vies = 40
+            self.__coeff_aleatoire = 10
+            self.__mode_dur = True
+            self.GenererAliens()
+            self.__hell_mode = True
+    
     def VerifPositionAlien(self):
         """Permet de savoir si l'alien a depasse la position autorisee"""
 
         for id_al in self.__aliens_att.keys():
-            if self.__aliens_att[id_al].Gety2() >= (int(self.__canvas_hei) - self.__limite_aliens):
+            if self.__aliens_att[id_al].Gety2() >= self.__limite_aliens:
                 return True                                                           #Si un alien depasse la limite return True
         for id_al in self.__aliens_def.keys():
-            if self.__aliens_def[id_al].Gety2() >= (int(self.__canvas_hei) - self.__limite_aliens):
+            if self.__aliens_def[id_al].Gety2() >= self.__limite_aliens:
                 return True 
         return False
 
