@@ -48,7 +48,10 @@ class projectile():
         return self.__y1
     
     def Gety2(self):
-        return self.__y2   
+        return self.__y2
+
+    def GetPoints(self):
+        return [(self.__x1,self.__y1),(self.__x2,self.__y2)]
 
     def GetColor(self):
         return self.__color
@@ -63,7 +66,7 @@ class projectile():
         self.__etat = False
     
     def ModifierCoord(self):
-        """Permet de modifier les coordonnes du prjectile"""
+        """Permet de modifier les coordonnes du projectile"""
 
         if self.__tir_ami:
             if 0 < (self.__y1 - self.__deplacer_vit):
@@ -86,3 +89,5 @@ class projectile():
     
     def CalculerCentre(self):
         return (self.__x1 + (self.__x2 - self.__x1)/2) , (self.__y1 + (self.__y2 - self.__y1)/2)
+
+    

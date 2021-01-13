@@ -20,12 +20,12 @@ import random
 class gui():
     def __init__(self):
         self.__main = ""                                #Definition de la fenetre principale
-        self.__main_len = "1400"                        #longueur de la fenetre
-        self.__main_hei = "1000"                        #largeur de la fenetre
+        self.__main_len = "1600"                        #longueur de la fenetre
+        self.__main_hei = "900"                        #largeur de la fenetre
 
         #REGLAGES JEU
-        self.__coeff_aleatoire = 200;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
-        self.__mode_dur = False;                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
+        self.__coeff_aleatoire = 150;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__mode_dur = False;                        #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
         self.__coeff_joueur = 2;                        #Probabilite que le tir se declanche    
 
         self.__limite_aliens = 30                       #Limite pour laquelle le jeu est perdu si l'alien la franchit: se calcule par Lim = Hauteur_Cadre - ce_coeff
@@ -36,12 +36,12 @@ class gui():
 
         #CANVAS
         self.__canvas = ""                              #Defintion de la variable du canvas
-        self.__canvas_len = "1300"                       #Definition de la longueur du canvas
+        self.__canvas_len = "1400"                      #Definition de la longueur du canvas
         self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
         
         
 
-        self.__nombre_aliens = 8                        #Nombre d'aliens par lignes
+        self.__nombre_aliens = 8                       #Nombre d'aliens par lignes
         self.__nb_al_dep = 2*self.__nombre_aliens
 
         #Creation des dictionaires des esprits des aliens
@@ -59,7 +59,7 @@ class gui():
         self.__id_bl_suppr = []
 
         #Creation des dictionaires contenant les corps des aliens (corps au sens d'objets canvas)
-        self.__nb_blocks = 30
+        self.__nb_blocks = 25
         self.__blocks = {}
         self.__corps_blocks={}
 
@@ -104,7 +104,7 @@ class gui():
         #Lie les touches du clavier au canvas:
         self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
         self.__main.bind("<Right>", self.__vaisseau.MoveRight)
-        self.__main.bind("<space>", self.GenererTirAmi)      
+        self.__main.bind("<KeyRelease-space>", self.GenererTirAmi)      
 
         #Ici la zone de score
         self.__score_label=tk.Label(self.__main , text="Score : "+ str(self.__score) )
@@ -116,7 +116,7 @@ class gui():
 
         #ici le bouton quitter
 
-        bouton1 = tk.Button(self.__main , text='Quitter',command=self.__main.destroy)
+        bouton1 = tk.Button(self.__main , text='Quitter',command=self.quitter)
         bouton1.pack()
 
         #Ici le bouton demarer
@@ -245,11 +245,11 @@ class gui():
             id_att = self.GenererId(self.__aliens_att)
             id_def = self.GenererId(self.__aliens_def)
 
-            #Ajoute les differents aliens au dictionaire des aliens
+            #Ajoute les differents aliens au dictionnaire des aliens
             self.__aliens_def[id_def] = alien_def
             self.__aliens_att[id_att] = alien_att
 
-            #Ajoute les corps des differents aliens au dictionaire des corps d'aliens
+            #Ajoute les corps des differents aliens au dictionnaire des corps d'aliens
             self.__corps_aliens_att[id_att] = corps_alien_att
             self.__corps_aliens_def[id_def] = corps_alien_def
 
@@ -361,39 +361,37 @@ class gui():
     def VerifCoord(self):
 
         if self.VerifGagne():   #Si on detruit tout les aliens on arrete le jeu
-            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="gold",font="Times 50 italic bold",text="Winner")
+            self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="gold",font="Times 50 italic bold",text="Winner")
             return False
         elif self.VerifPositionAlien():
-            self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+            self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="red",font="Times 50 italic bold",text="PERDU")
             return False
         elif self.__projectiles != {}:
-            for id in self.__projectiles.keys():                     #Appelle les identites de tous les projectiles
-                if self.__projectiles[id].GetEtat():                  #Si le projectile n'est pas sorti de la fenetre
+            for id in self.__projectiles.keys():                                                #Appelle les identites de tous les projectiles
+                if self.__projectiles[id].GetEtat():                                            #Si le projectile n'est pas sorti de la fenetre
+                    x,y = self.__projectiles[id].CalculerCentre()
 
-                    x,y = self.__projectiles[id].CalculerCentre()     #Calcule le centre du projectile
+                    if self.__projectiles[id].GetEkip():                                        #Si le projectile est un tir ami
 
-                    if self.__projectiles[id].GetEkip():              #Si le projectile est un tir ami
-
-                        for id_al in self.__aliens_att.keys():
-                            if ((self.__projectiles[id].Gety1() <= self.__aliens_att[id_al].Gety2()) and  (self.__projectiles[id].Gety1() >= self.__aliens_att[id_al].Gety1()) and (self.__projectiles[id].Getx1() >= self.__aliens_att[id_al].Getx1()) and (self.__projectiles[id].Getx2() <= self.__aliens_att[id_al].Getx2())):  #Si le projectile est dans la zone de l'alien
+                        for id_al in self.__aliens_att.keys():                                  #Verifie si le tir touche un alien de defense
+                            if self.__aliens_att[id_al].IsColliding(self.__projectiles[id].GetPoints()):
                                 if id_al not in self.__al_att_suppr:
                                     self.__al_att_suppr.append(id_al)     
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id) 
                         
-                        for id_al in self.__aliens_def.keys():
-                            if ((self.__projectiles[id].Gety1() <= self.__aliens_def[id_al].Gety2()) and  (self.__projectiles[id].Gety1() >= self.__aliens_def[id_al].Gety1()) and (self.__projectiles[id].Getx1() >= self.__aliens_def[id_al].Getx1()) and (self.__projectiles[id].Getx2() <= self.__aliens_def[id_al].Getx2())):
+                        for id_al in self.__aliens_def.keys():                                 #Verifie si le tir touche un alien de defense
+                            if self.__aliens_def[id_al].IsColliding(self.__projectiles[id].GetPoints()):
                                 if id_al not in self.__al_def_suppr:
                                     self.__al_def_suppr.append(id_al)
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id) 
-                                
-                        return True                                 #Le Jeu continu
 
-                    else:                                         #Sinon le tir est ennemis
+                    else:                                                                       #Sinon le tir est ennemis
+
                         for id_bl in self.__blocks.keys():
                             
-                            if (self.__blocks[id_bl].Gety1() <= self.__projectiles[id].Gety2()) and (self.__projectiles[id].Gety1() >= self.__blocks[id_bl].Gety1()) and((x >= self.__blocks[id_bl].Getx1()) and (x <= self.__blocks[id_bl].Getx2())): #Si est dans la zone du vaisseau
+                            if self.__blocks[id_bl].IsColliding(self.__projectiles[id].GetPoints()):
                                 if not self.__blocks[id_bl].IsInvincible():
                                     if id_bl not in self.__id_bl_suppr:
                                         self.__id_bl_suppr.append(id_bl)
@@ -401,23 +399,21 @@ class gui():
                                     self.__proj_suppr.append(id) 
                         
                         #Verifie si le vaisseau est touche par un projectile
-                        if (self.__vaisseau.Gety1() <= self.__projectiles[id].Gety2()) and ((x >= self.__vaisseau.Getx1()) and (x <= self.__vaisseau.Getx2())): #Si est dans la zone du vaisseau
-                            
-                            if self.__vies > 0:                     #Si le vaisseau a assez de vies le jeu continue
+                        if self.__vaisseau.IsColliding(self.__projectiles[id].GetPoints()):     #Si est dans la zone du vaisseau
+                            if self.__vies > 0:                                                 #Si le vaisseau a assez de vies le jeu continue
                                 self.__vies += -1
                                 if id not in self.__proj_suppr:
                                     self.__proj_suppr.append(id)
-                                return True
 
-                            else:                                   #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
-                                self.__canvas.create_text(int(self.__canvas_hei)/2,int(self.__canvas_len)/2,fill="red",font="Times 50 italic bold",text="PERDU")
-                                return False                        #Arrete le jeu
-                        else:
-                            return True
+                            else:                                                                #Si le vaisseau n'as plus de vie, arreter le jeu et afficher perdu
+                                #Ecriture du message perdu
+                                self.__canvas.create_text(int(self.__canvas_len)/2,int(self.__canvas_hei)/2,fill="red",font="Times 50 italic bold",text="PERDU")
+                                
+                                return False                                                     #Arrete le jeu
                 else:
                     if id not in self.__proj_suppr:
-                        self.__proj_suppr.append(id)            #Si le projectile sort de la fenetre
-                    return True
+                        self.__proj_suppr.append(id)                                            #Si le projectile sort de la fenetre
+            return True                                                                         #SI la verfication a ete faite et rien n'est mauvais, alors proceder
         else:
             return True
     
@@ -443,9 +439,12 @@ class gui():
 
     def rejouer(self):
         """Permet de relancer une partie"""
-
         self.__main.destroy()
         self.__init__()
         self.AfficherFenetre()
-            
-  
+    
+    def quitter(self):
+        """Permet de quitter le jeu"""
+        self.__canvas.delete("all")     #Detruit le canvas
+        self.__main.destroy()           #Detruit la fenetre
+        exit()                          #Detruit la console

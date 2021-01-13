@@ -1,2 +1,0 @@
-    - Ameliore les tirs
-    - Ajout le la possibilite de perdre quand l'alien touche le vaisseau
