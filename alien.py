@@ -29,6 +29,8 @@ class alien():
         self.__y1 = posY1
         self.__x2 = posX2
         self.__y2 = posY2
+
+        #LA couleur
         self.__color_fill = color
 
         #Deplacement de l'alien
@@ -89,3 +91,32 @@ class alien():
 
     def CalculerCentre(self):
         return (self.__x1 + (self.__x2 - self.__x1)/2) , (self.__y1 + (self.__y2 - self.__y1)/2)
+
+    #LEs prochaines fonctions vont etablir si il ya collision ou non
+    def IsColliding(self,Points):
+        """Fonctionne en utilisant des coordones sous forme de tupples"""
+        point_proj = []
+
+        point_proj.append(Points[0])
+        point_proj.append(Points[1])
+
+        P3_proj,P4_proj = self.CalcAllPoints(Points)
+
+        point_proj.append(P3_proj)
+        point_proj.append(P4_proj)
+
+        #Boucle principale verifiant si un des points du prjectil est dans l'alien (les ifs sont pour les testes)
+        for point in point_proj:
+            if float(point[0]) > float(self.__x1) and (float(point[0]) < float(self.__x2)):
+                    if float(point[1]) < float(self.__y2) and (float(point[1]) > float(self.__y1)):
+                        return True
+        return False
+
+    def CalcAllPoints(self,Points):
+
+        x3 = Points[1][0]
+        y3 = Points[0][1]
+        x4 = Points[0][0]
+        y4 = Points[1][1]
+
+        return (x3,y3),(x4,y4)
