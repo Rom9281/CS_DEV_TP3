@@ -16,7 +16,6 @@ from vaisseau import vaisseau
 from projectile import projectile
 from block import block
 import random
-from playsound import playsound
 from winsound import *
 
 
