@@ -3,7 +3,6 @@
     Le code se lance en chargent le main.py
     Il faut penser a mettre le jeu en pleine ecran
     Si on utilise le bouton rejouer, il faut penser a recliquer sur la fenetre pour que les actions soient faite dans le jeu.
-    NOTE : pour quitter le jeu il faut parfois appuyer plusieurs fois sur quitter
 
 %%STRUCTURE
 
@@ -20,3 +19,4 @@
             - Chaque entite du jeu est compose d'un corps, qui est un objet canvas et d'un esprit, qui est un objet cree par notre equipe
             - L'esprit dicte au corps de bouger : c'est donc lui qui effectue les calculs de coordonnes.
             - Chaque entite (sauf le vaisseau qui est unique en son genre) est stoque dans un dictionaire et possede une identite numerique qui permet de le repertorier
+            - Ce sont les entites qui sont percutes qui gerent les collsions et qui permetent de dire au GUI si il faut qu'elles soient enleves

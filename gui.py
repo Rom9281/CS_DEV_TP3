@@ -441,6 +441,6 @@ class gui():
     
     def quitter(self):
         """Permet de quitter le jeu"""
-        self.__canvas.delete("all")
-        self.__main.destroy()
-        exit()
+        self.__canvas.delete("all")     #Detruit le canvas
+        self.__main.destroy()           #Detruit la fenetre
+        exit()                          #Detruit la console
