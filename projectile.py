@@ -19,8 +19,8 @@ class projectile():
 
         self.__etat = True
 
-        self.__largeur = 3                                      #Definit la largeur du projectile
-        self.__longueur = 9                                     #Definit la longeur du projectile
+        self.__largeur = 6                                      #Definit la largeur du projectile
+        self.__longueur = 10                                     #Definit la longeur du projectile
         self.__color = color                                   #Definit la couleur du projectile
 
         self.__deplacer_vit = 4                                 #Vitesse de deplacment du missile

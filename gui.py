@@ -36,8 +36,8 @@ class gui():
 
         #CANVAS
         self.__canvas = ""                              #Defintion de la variable du canvas
-        self.__canvas_len = "1400"                      #Definition de la longueur du canvas
-        self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
+        self.__canvas_len = "1280"                      #Definition de la longueur du canvas
+        self.__canvas_hei = "800"                       #Definition de la hauteur du canvas
         
         
 
@@ -198,10 +198,10 @@ class gui():
             self.__random = random.randint(0,self.__coeff_block_inv)        #Genere un nombre aleatoire permettant de savoir si l'alien va tirer
             if self.__random == 1:
                 invincible = True
-                color = 'brown'
+                color = '#585e5d'
             else:
                 invincible = False
-                color = 'yellow'
+                color = '#9b9b9b'
 
             block1 = block(posX1,self.__y1_bl,posX2,self.__y2_bl,invincible,color)
             corps_block = self.__canvas.create_rectangle(block1.Getx1(),block1.Gety1(),block1.Getx2(),block1.Gety2(),fill = block1.GetColor())
@@ -235,8 +235,8 @@ class gui():
             xsup = mini + ((maxi-mini)*2)/3     #Position intitale du point x2
 
             #Genere l'esprit de l'alien
-            alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_att,xsup,y2_att,"pink",mini,maxi)
-            alien_def = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"green",mini,maxi)
+            alien_att = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_att,xsup,y2_att,"black",mini,maxi)
+            alien_def = alien(self.__canvas_len,self.__canvas_hei,xinf,y1_def,xsup,y2_def,"red",mini,maxi)
 
             #Genere le corps de l'alien
             corps_alien_def = self.__canvas.create_rectangle(alien_def.Getx1(),alien_def.Gety1(),alien_def.Getx2(),alien_def.Gety2(), fill = alien_def.GetColor())
