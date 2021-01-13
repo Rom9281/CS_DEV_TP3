@@ -1,6 +1,9 @@
 %% LANCEMENT
 
     Le code se lance en chargent le main.py
+    Il faut penser a mettre le jeu en pleine ecran
+    Si on utilise le bouton rejouer, il faut penser a recliquer sur la fenetre pour que les actions soient faite dans le jeu.
+    NOTE : pour quitter le jeu il faut parfois appuyer plusieurs fois sur quitter
 
 %%STRUCTURE
 

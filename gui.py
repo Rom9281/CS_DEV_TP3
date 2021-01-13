@@ -20,12 +20,12 @@ import random
 class gui():
     def __init__(self):
         self.__main = ""                                #Definition de la fenetre principale
-        self.__main_len = "1700"                        #longueur de la fenetre
-        self.__main_hei = "1000"                        #largeur de la fenetre
+        self.__main_len = "1600"                        #longueur de la fenetre
+        self.__main_hei = "900"                        #largeur de la fenetre
 
         #REGLAGES JEU
-        self.__coeff_aleatoire = 200;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
-        self.__mode_dur = False;                         #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
+        self.__coeff_aleatoire = 150;                   #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
+        self.__mode_dur = False;                        #Activation du mode dur: il y a maintenant une probabilite que le tir ami se declanche
         self.__coeff_joueur = 2;                        #Probabilite que le tir se declanche    
 
         self.__limite_aliens = 30                       #Limite pour laquelle le jeu est perdu si l'alien la franchit: se calcule par Lim = Hauteur_Cadre - ce_coeff
@@ -36,7 +36,7 @@ class gui():
 
         #CANVAS
         self.__canvas = ""                              #Defintion de la variable du canvas
-        self.__canvas_len = "1400"                       #Definition de la longueur du canvas
+        self.__canvas_len = "1400"                      #Definition de la longueur du canvas
         self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
 
         self.__nombre_aliens = 8                       #Nombre d'aliens par lignes
@@ -57,7 +57,7 @@ class gui():
         self.__id_bl_suppr = []
 
         #Creation des dictionaires contenant les corps des aliens (corps au sens d'objets canvas)
-        self.__nb_blocks = 30
+        self.__nb_blocks = 25
         self.__blocks = {}
         self.__corps_blocks={}
 
