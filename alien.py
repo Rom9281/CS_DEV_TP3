@@ -95,6 +95,9 @@ class alien():
     #LEs prochaines fonctions vont etablir si il ya collision ou non
     def IsColliding(self,Points):
         """Fonctionne en utilisant des coordones sous forme de tupples"""
+
+        #Permet de verifier les collisions en prenant chaque coin de l'objet projectile et verifiant si il n'est pas dans le carre de l'objet percute
+
         point_proj = []
 
         point_proj.append(Points[0])

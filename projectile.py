@@ -89,3 +89,5 @@ class projectile():
     
     def CalculerCentre(self):
         return (self.__x1 + (self.__x2 - self.__x1)/2) , (self.__y1 + (self.__y2 - self.__y1)/2)
+
+    
