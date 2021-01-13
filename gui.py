@@ -112,7 +112,7 @@ class gui():
 
         #ici le bouton quitter
 
-        bouton1 = tk.Button(self.__main , text='Quitter',command=self.__main.destroy)
+        bouton1 = tk.Button(self.__main , text='Quitter',command=self.quitter)
         bouton1.pack()
 
         #Ici le bouton demarer
@@ -435,9 +435,12 @@ class gui():
 
     def rejouer(self):
         """Permet de relancer une partie"""
-
         self.__main.destroy()
         self.__init__()
         self.AfficherFenetre()
-            
-  
+    
+    def quitter(self):
+        """Permet de quitter le jeu"""
+        self.__canvas.delete("all")
+        self.__main.destroy()
+        exit()
