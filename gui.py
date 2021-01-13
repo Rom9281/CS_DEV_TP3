@@ -38,6 +38,8 @@ class gui():
         self.__canvas = ""                              #Defintion de la variable du canvas
         self.__canvas_len = "1300"                       #Definition de la longueur du canvas
         self.__canvas_hei = "700"                       #Definition de la hauteur du canvas
+        
+        
 
         self.__nombre_aliens = 8                        #Nombre d'aliens par lignes
         self.__nb_al_dep = 2*self.__nombre_aliens
@@ -84,14 +86,16 @@ class gui():
     
     def AfficherFenetre(self):
         """Commande d'affichage de la fentetre"""
-        self.__main = tk.Tk()
-
+        
+        self.__main =tk.Tk() 
         self.__main.geometry(self.__main_len+"x"+self.__main_hei)       #Definit la geometrie de la fenetre   
 
         #Ici le canvas
-
-        self.__canvas = tk.Canvas(self.__main, width = self.__canvas_len, height = self.__canvas_hei, bg = "black")
+        
+        self.__canvas = tk.Canvas(self.__main, width = self.__canvas_len, height = self.__canvas_hei , bg ='black')
         self.__canvas.pack()
+        self.__background = tk.PhotoImage(file="galaxie.png")
+        self.__canvas.create_image(0, 0, image=self.__background, anchor='nw')
 
         self.GenererAliens()                 #Genere les aliens
         self.GenererVaisseau()               #Genere le vaisseau
