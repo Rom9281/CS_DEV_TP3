@@ -30,3 +30,6 @@
     - appuyer sur r permet de gagner ou perdre un nombre de vies choisit aleatoirement. Ne marche que si les on a plus de une vie.
     - Le mode difficile de la fin peut etre enleve en appuyant sur d, mais il enleve une vie
     - Code ultime : Hell mode en appuyant sur h... deconseille
+
+%% LE SON:
+Desactiver ou activer en appuyant sur m

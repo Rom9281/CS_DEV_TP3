@@ -16,12 +16,16 @@ from vaisseau import vaisseau
 from projectile import projectile
 from block import block
 import random
+from playsound import playsound
+from winsound import *
+
 
 class gui():
     def __init__(self):
+        self.__sound_on = False                          # /!\ Son est mal fait sur tkinter... a vous de savoir si vous souhaitez l'activer
         self.__main = ""                                #Definition de la fenetre principale
         self.__main_len = "1600"                        #longueur de la fenetre
-        self.__main_hei = "900"                        #largeur de la fenetre
+        self.__main_hei = "900"                         #largeur de la fenetre
 
         #REGLAGES JEU
         self.__coeff_aleatoire = 150                    #Regler ici la probabilite qu'un alien tire ex si = 10, l'alien a 1 chance sur 10 de tirer
@@ -111,6 +115,9 @@ class gui():
         #Permet de bouger en apuyant sur les fleches
         self.__main.bind("<Left>", self.__vaisseau.MoveLeft)
         self.__main.bind("<Right>", self.__vaisseau.MoveRight)
+
+        #Mute si le son est active
+        self.__main.bind("m", self.Mute)
 
         #Cheatcodes
         self.__main.bind("r", self.RandomLife)
@@ -289,8 +296,15 @@ class gui():
         self.__corps_projectiles[id_proj] = corps_projectile   #Ajoute les corps du projectile
     
     def GenererTirAmi(self,event):
-
         """Evenement ou il y a un projetile amis"""
+        #Permet de faire du son si on le souhaite quand la personne tire
+        
+        if self.__sound_on:
+            if random.randint(0,1):
+                PlaySound('piou1.wav', SND_FILENAME)
+            else:
+                PlaySound('piou2.wav', SND_FILENAME)
+
         if self.__mode_dur:
             self.__random = random.randint(0,self.__coeff_joueur)        #Genere un nombre aleatoire permettant de savoir si l'alien va tirer
             if self.__random == 1:
@@ -461,6 +475,12 @@ class gui():
             self.__mode_dur = True
             self.GenererAliens()
             self.__hell_mode = True
+    
+    def Mute(self,event):
+        if self.__sound_on:
+            self.__sound_on = False
+        else:
+            self.__sound_on = True
     
     def VerifPositionAlien(self):
         """Permet de savoir si l'alien a depasse la position autorisee"""
