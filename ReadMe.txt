@@ -1,3 +1,15 @@
+__________________________________________      SPACE INVADER ____________________________________________________
+
+%% Credit
+
+Ecrit Par Romain GAUD et Lucas ROTH
+
+Voix de Romain GALMIER
+
+%% Repertoire GitHub
+
+https://github.com/Rom9281/CS_DEV_TP3.git
+
 %% LANCEMENT
 
     Le code se lance en chargent le main.py
@@ -26,10 +38,11 @@
  - LA difficulte augmente au moment ou il reste que trois aliens d'attaques:
         - Les aliens tirent plus vite
         - Le joueur ne tire pas tout le temps
+
 %%CHEATCODES
     - appuyer sur r permet de gagner ou perdre un nombre de vies choisit aleatoirement. Ne marche que si les on a plus de une vie.
     - Le mode difficile de la fin peut etre enleve en appuyant sur d, mais il enleve une vie
-    - Code ultime : Hell mode en appuyant sur h... deconseille
+    - Mode ultime : Hell mode en appuyant sur h... deconseille si vous etes epilleptique
 
 %% LE SON:
 Desactiver ou activer en appuyant sur m
